@@ -49,7 +49,7 @@
                                 <Text fx:id="DefaultFile" text="No Image Selected" />
                             </TextFlow>
                             <Button layoutX="86.0" layoutY="44.0" mnemonicParsing="false" onAction="#chooseImageFile" text="Select Image" />
-                            <Button layoutX="86.0" layoutY="84.0" mnemonicParsing="false" text="Configure" onAction="#configureScan"/>
+                            <Button layoutX="86.0" layoutY="84.0" mnemonicParsing="false" onAction="#configureScan" text="Configure" />
                         <ImageView fx:id="ScanImageDisplay" fitHeight="220.0" fitWidth="310.0" layoutX="86.0" layoutY="122.0" pickOnBounds="true" preserveRatio="true" />
                         </children>
                     </AnchorPane>
@@ -58,7 +58,9 @@
             <Tab text="Execute">
                 <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                        <Label text="Label3" />
+                     <children>
+                        <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" text="Begin Cropping" onAction="#executeCropping"/>
+                     </children>
                     </AnchorPane>
                 </content>
             </Tab>

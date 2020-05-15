@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Stack;
