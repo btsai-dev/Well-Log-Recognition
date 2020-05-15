@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<?import javafx.scene.text.Text?>
-<?import javafx.scene.text.TextFlow?>
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.MainMenuController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.MainMenu">
    <children>
       <TabPane layoutX="8.0" layoutY="7.0" prefHeight="385.0" prefWidth="584.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
@@ -15,7 +15,7 @@
                      <ScrollPane layoutX="7.0" layoutY="9.0" prefHeight="331.0" prefWidth="236.0">
                        <content>
                            <TextFlow layoutX="10.0" layoutY="10.0" prefHeight="331.0" prefWidth="236.0">
-                               <Text fx:id="UsageInstructions" text="Insturctions go brrr"/>
+                               <Text fx:id="UsageInstructions" text="Ha Ha Instructions go brrr" />
                            </TextFlow>
 
                        </content>
@@ -23,17 +23,35 @@
                 </AnchorPane>
             </content>
           </Tab>
-          <Tab text="Configure Scan Locations">
+          <Tab text="Configure Scan Directory">
             <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                    <Label text="Label" />
+                     <children>
+                        <CheckBox layoutX="14.0" layoutY="14.0" mnemonicParsing="false" text="PNG" />
+                        <CheckBox layoutX="14.0" layoutY="31.0" mnemonicParsing="false" text="JPG" />
+                        <CheckBox layoutX="14.0" layoutY="48.0" mnemonicParsing="false" text="TIF" />
+                        <TextFlow layoutX="86.0" layoutY="14.0" prefHeight="30.0" prefWidth="469.0" textAlignment="LEFT">
+                            <Text fx:id="ScanDirectory" text="No Directory Selected" />
+                        </TextFlow>
+                        <Button layoutX="86.0" layoutY="44.0" mnemonicParsing="false" onAction="#chooseDirectory" text="Select Directory" />
+                     </children>
                 </AnchorPane>
             </content>
           </Tab>
-            <Tab text="Set Scan Directory">
+            <Tab text="Select Parts of Image">
                 <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                        <Label text="Label2" />
+                        <children>
+                            <CheckBox layoutX="14.0" layoutY="14.0" mnemonicParsing="false" text="PNG" />
+                            <CheckBox layoutX="14.0" layoutY="31.0" mnemonicParsing="false" text="JPG" />
+                            <CheckBox layoutX="14.0" layoutY="48.0" mnemonicParsing="false" text="TIF" />
+                            <TextFlow layoutX="86.0" layoutY="14.0" prefHeight="25.0" prefWidth="469.0" textAlignment="LEFT">
+                                <Text fx:id="DefaultFile" text="No Image Selected" />
+                            </TextFlow>
+                            <Button layoutX="86.0" layoutY="44.0" mnemonicParsing="false" onAction="#chooseImageFile" text="Select Image" />
+                            <Button layoutX="86.0" layoutY="84.0" mnemonicParsing="false" text="Configure" onAction="#configureScan"/>
+                        <ImageView fx:id="ScanImageDisplay" fitHeight="220.0" fitWidth="310.0" layoutX="86.0" layoutY="122.0" pickOnBounds="true" preserveRatio="true" />
+                        </children>
                     </AnchorPane>
                 </content>
             </Tab>

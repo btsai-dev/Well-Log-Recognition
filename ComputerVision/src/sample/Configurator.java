@@ -11,9 +11,7 @@ import javax.swing.*;
 import java.io.*;
 import java.util.Properties;
 
-public class ConfigurationController {
-    private static String configPath;
-
+public class Configurator {
     @FXML
     private Button buttonClose;
 
@@ -22,10 +20,6 @@ public class ConfigurationController {
 
     @FXML
     private TextField azureEndpoint;
-
-    public static void setConfigPath(String path){
-        configPath = path;
-    }
 
     public void exitConfig(ActionEvent actionEvent){
         Stage stage = (Stage) buttonClose.getScene().getWindow();
@@ -37,14 +31,15 @@ public class ConfigurationController {
         try{
             Properties prop = new Properties();
 
-            InputStream input = new FileInputStream(configPath);
+            InputStream input = new FileInputStream(Controller.getConfigPath());
             prop.load(input);
             input.close();
 
-            OutputStream output = new FileOutputStream(configPath);
+            OutputStream output = new FileOutputStream(Controller.getConfigPath());
             prop.setProperty("db.azureSubscriptionKey", key);
             prop.store(output, null);
             output.close();
+            Controller.loadAzureData(key, null);
 
         } catch (IOException io) {
             io.printStackTrace();
@@ -56,14 +51,15 @@ public class ConfigurationController {
         try{
             Properties prop = new Properties();
 
-            InputStream input = new FileInputStream(configPath);
+            InputStream input = new FileInputStream(Controller.getConfigPath());
             prop.load(input);
             input.close();
 
-            OutputStream output = new FileOutputStream(configPath);
+            OutputStream output = new FileOutputStream(Controller.getConfigPath());
             prop.setProperty("db.azureEndpoint", endpoint);
             prop.store(output, null);
             output.close();
+            Controller.loadAzureData(null, endpoint);
 
         } catch (IOException io) {
             io.printStackTrace();
