@@ -1,16 +1,17 @@
 package sample;
 
 import javafx.event.ActionEvent;
+import javafx.stage.Stage;
 
 import java.util.HashMap;
 import java.util.HashSet;
 
 public class Controller {
-    private static String configPath = null;
+    private static String configPath;
     private static HashMap<String, String> azureData = new HashMap<String, String>();
     private static HashSet<String> imageFilter = new HashSet<String>();
-
-    private static String scanDirectory = null;
+    public static Stage mainStage;
+    private static String scanDirectory;
 
     public static void loadAzureData(String key, String endpoint){
         if (key != null)
@@ -44,6 +45,5 @@ public class Controller {
     public static HashSet getImageFilter(){
         return imageFilter;
     }
-
 
 }

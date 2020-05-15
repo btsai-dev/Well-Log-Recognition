@@ -44,7 +44,7 @@ public class MainMenu {
         DirectoryChooser dc = new DirectoryChooser();
         dc.setInitialDirectory(userDirectory);
         dc.setTitle("Opening the location..");
-        File chosen = dc.showDialog(null);
+        File chosen = dc.showDialog(Controller.mainStage);
         if(chosen != null) {
             directoryPath = chosen.getPath();
             ScanDirectory.setText(directoryPath);
@@ -63,7 +63,7 @@ public class MainMenu {
         FileChooser fc = new FileChooser();
         fc.setInitialDirectory(userDirectory);
         fc.setTitle("Opening the location..");
-        File chosen = fc.showOpenDialog(null);
+        File chosen = fc.showOpenDialog(Controller.mainStage);
         if(chosen != null && ImageUtils.confirmType(chosen, Controller.getImageFilter() )) {
             filePath = chosen.getPath();
             DefaultFile.setText(filePath);
