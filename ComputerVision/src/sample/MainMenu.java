@@ -2,6 +2,8 @@ package sample;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
@@ -11,6 +13,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import javax.swing.*;
@@ -30,10 +33,6 @@ public class MainMenu {
     @FXML
     private ImageView ScanImageDisplay;
 
-    public static void setDirectoryPath(String path){
-        directoryPath = path;
-    }
-
     public void chooseDirectory(ActionEvent actionEvent){
         String userDirectoryString = System.getProperty("user.home");
         File userDirectory = new File(userDirectoryString);
@@ -48,8 +47,6 @@ public class MainMenu {
         if(chosen != null) {
             directoryPath = chosen.getPath();
             ScanDirectory.setText(directoryPath);
-        } else {
-            directoryPath = null;
         }
     }
 
@@ -68,8 +65,6 @@ public class MainMenu {
             filePath = chosen.getPath();
             DefaultFile.setText(filePath);
             setImage(filePath);
-        } else {
-            filePath = null;
         }
     }
 
@@ -79,14 +74,23 @@ public class MainMenu {
                 FileInputStream input = new FileInputStream(filePath);
                 Image image = new Image(input);
                 ScanImageDisplay.setImage(image);
+                Controller.setScanImage(image);
             } catch (Exception e){
                 e.printStackTrace();
             }
         }
     }
 
-    public void configureScan(ActionEvent actionEvent){
-
+    public void configureScan(ActionEvent actionEvent) throws IOException {
+        if (Controller.getScanImage() != null) {
+            Stage configScanStage = new Stage();
+            Parent root = FXMLLoader.load(getClass().getResource("ScanConfigurator.fxml"));
+            configScanStage.setTitle("Configure Scan Locations");
+            configScanStage.setScene(new Scene(root, 800, 600));
+            Controller.mainStage = configScanStage;
+            configScanStage.initModality(Modality.APPLICATION_MODAL);
+            configScanStage.showAndWait();
+        }
     }
 
 
