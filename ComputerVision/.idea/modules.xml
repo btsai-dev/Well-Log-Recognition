@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Well-Log-Recognition.iml" filepath="$PROJECT_DIR$/Well-Log-Recognition.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ComputerVision.iml" filepath="$PROJECT_DIR$/ComputerVision.iml" />
     </modules>
   </component>
 </project>
