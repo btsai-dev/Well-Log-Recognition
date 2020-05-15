@@ -8,10 +8,10 @@ import javafx.stage.Stage;
 
 public class Configuration extends Application{
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage stage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("Configuration.fxml"));
-        primaryStage.setTitle("Configuration");
-        primaryStage.setScene(new Scene(root, 800, 600));
-        primaryStage.show();
+        stage.setTitle("Configuration");
+        stage.setScene(new Scene(root, 800, 600));
+        stage.show();
     }
 }

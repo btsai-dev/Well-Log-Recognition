@@ -12,21 +12,17 @@ import java.util.Properties;
 public class Main {
 
     public static void main(String[] args){
-        // Application.launch(Configuration.class, args);
-        // Gets the config file
-        String path = getConfigPath();
-        System.out.println(path);
-        File config = new File(path);
-        //if (!config.exists() || config.length() <= 0){
-            config.getParentFile().mkdirs();
-            ConfigurationController.setConfigPath(getConfigPath());
-            Application.launch(Configuration.class, args);
-        //}
+        LaunchConfiguration(args);
         Application.launch(MainMenu.class, args);
     }
 
-    public static String getConfigPath() {
-        return System.getProperty("user.home")+File.separator+ "WellLogAnalysis"+File.separator+"config.properties";
+    public static void LaunchConfiguration(String[] args){
+        String path = System.getProperty("user.home") +
+                File.separator+ "WellLogAnalysis" +
+                File.separator+"config.properties";
+        File config = new File(path);
+        config.getParentFile().mkdirs();
+        ConfigurationController.setConfigPath(path);
+        Application.launch(Configuration.class, args);
     }
-
 }
