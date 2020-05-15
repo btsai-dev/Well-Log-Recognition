@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 import javax.swing.*;
 import java.io.*;
 import java.util.Properties;
+import java.util.Stack;
 
 public class MainMenu {
     private static String directoryPath;
@@ -83,6 +84,7 @@ public class MainMenu {
 
     public void configureScan(ActionEvent actionEvent) throws IOException {
         if (Controller.getScanImage() != null) {
+            Controller.defaultPositions = new Stack<DefaultScan>();
             Stage configScanStage = new Stage();
             Parent root = FXMLLoader.load(getClass().getResource("ScanConfigurator.fxml"));
             configScanStage.setTitle("Configure Scan Locations");

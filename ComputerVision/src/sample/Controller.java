@@ -6,6 +6,7 @@ import javafx.stage.Stage;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Stack;
 
 public class Controller {
     private static String configPath;
@@ -14,6 +15,8 @@ public class Controller {
     public static Stage mainStage;
     private static String scanDirectory;
     private static Image scanImage;
+
+    public static Stack<DefaultScan> defaultPositions;
 
     public static void loadAzureData(String key, String endpoint){
         if (key != null)
