@@ -13,6 +13,7 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.json.JSONObject;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -55,14 +56,18 @@ public class MainMenu {
         System.out.println(directoryPath);
     }
 
-    public void chooseImageFileForKeywords(ActionEvent actionEvent){
+    private File getUserDirectory(){
         String userDirectoryString = System.getProperty("user.home");
         File userDirectory = new File(userDirectoryString);
         if(!userDirectory.canRead()) {
             userDirectory = new File("c:/");
         }
+        return userDirectory;
+    }
+
+    public void chooseImageFileForKeywords(ActionEvent actionEvent){
         FileChooser fc = new FileChooser();
-        fc.setInitialDirectory(userDirectory);
+        fc.setInitialDirectory(getUserDirectory());
         fc.setTitle("Opening the location..");
         File chosen = fc.showOpenDialog(Controller.mainStage);
         if(chosen != null && ImageUtils.confirmType(chosen, Controller.getImageFilter() )) {
@@ -72,19 +77,18 @@ public class MainMenu {
         }
     }
 
-    public void AnalyzeImageForKeywords(ActionEvent actionEvent) {
+    public void AnalyzeSingleImageForKeywords(ActionEvent actionEvent) {
+        AnalysisMicrosoftAzure imageAnalysis = new AnalysisMicrosoftAzure(filePathForImageKeywords);
+        JSONObject results = imageAnalysis.analyze();
+    }
+
+    public void AnalyzeMultipleImageForKeywords(ActionEvent actionEvent) {
 
     }
 
     public void chooseImageFileForCropping(ActionEvent actionEvent){
-        String userDirectoryString = System.getProperty("user.home");
-        File userDirectory = new File(userDirectoryString);
-        if(!userDirectory.canRead()) {
-            userDirectory = new File("c:/");
-        }
-
         FileChooser fc = new FileChooser();
-        fc.setInitialDirectory(userDirectory);
+        fc.setInitialDirectory(getUserDirectory());
         fc.setTitle("Opening the location..");
         File chosen = fc.showOpenDialog(Controller.mainStage);
         if(chosen != null && ImageUtils.confirmType(chosen, Controller.getImageFilter() )) {

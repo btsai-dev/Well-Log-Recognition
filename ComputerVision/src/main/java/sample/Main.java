@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.json.JSONObject;
 
 import java.io.*;
 
@@ -45,7 +46,10 @@ public class Main extends Application {
     }
 
     public static void main(String[] args){
-
+        String key = "ffcd9ea1d1104c17b794879fa4262228";
+        String endpoint = "https://lsu-frank-tsai.cognitiveservices.azure.com/";
+        AnalysisMicrosoftAzure test = new AnalysisMicrosoftAzure("C:\\Users\\godon\\__LMAOOO\\001-5032Z.png", endpoint, key);
+        test.analyze();
 
 
 

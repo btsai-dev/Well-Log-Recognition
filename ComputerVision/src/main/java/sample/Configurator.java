@@ -30,11 +30,11 @@ public class Configurator {
         try{
             Properties prop = new Properties();
 
-            InputStream input = new FileInputStream(Controller.getConfigPath());
+            InputStream input = new FileInputStream(Controller.configPath);
             prop.load(input);
             input.close();
 
-            OutputStream output = new FileOutputStream(Controller.getConfigPath());
+            OutputStream output = new FileOutputStream(Controller.configPath);
             prop.setProperty("db.azureSubscriptionKey", key);
             prop.store(output, null);
             output.close();
@@ -50,11 +50,11 @@ public class Configurator {
         try{
             Properties prop = new Properties();
 
-            InputStream input = new FileInputStream(Controller.getConfigPath());
+            InputStream input = new FileInputStream(Controller.configPath);
             prop.load(input);
             input.close();
 
-            OutputStream output = new FileOutputStream(Controller.getConfigPath());
+            OutputStream output = new FileOutputStream(Controller.configPath);
             prop.setProperty("db.azureEndpoint", endpoint);
             prop.store(output, null);
             output.close();

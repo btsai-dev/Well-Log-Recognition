@@ -20,7 +20,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="ComputerVision" target="1.5" />
+      <module name="ComputerVision" target="1.14" />
     </bytecodeTargetLevel>
   </component>
 </project>

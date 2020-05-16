@@ -70,7 +70,7 @@
                               <Text fx:id="NameOfFileSelectedForKeywords" text="No Image Selected" wrappingWidth="78.341796875" />
                            </children>
                         </TextFlow>
-                        <Button onAction="#AnalyzeImageForKeywords" layoutX="14.0" layoutY="46.0" mnemonicParsing="false" prefWidth="90.0" text="Analyze" AnchorPane.bottomAnchor="285.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="480.0" AnchorPane.topAnchor="46.0" />
+                        <Button onAction="#AnalyzeSingleImageForKeywords" layoutX="14.0" layoutY="46.0" mnemonicParsing="false" prefWidth="90.0" text="Analyze" AnchorPane.bottomAnchor="285.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="480.0" AnchorPane.topAnchor="46.0" />
                         <TextFlow layoutX="120.0" layoutY="51.0" prefHeight="16.0" prefWidth="200.0" AnchorPane.bottomAnchor="289.0" AnchorPane.leftAnchor="120.0" AnchorPane.rightAnchor="264.0" AnchorPane.topAnchor="51.0">
                            <children>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Awaiting Analysis" />
