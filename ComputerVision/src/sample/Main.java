@@ -27,7 +27,8 @@ public class Main extends Application {
         Stage configWindow = new Stage();
         Parent root = FXMLLoader.load(getClass().getResource("Configurator.fxml"));
         configWindow.setTitle("Configuration");
-        configWindow.setScene(new Scene(root, 800, 600));
+        configWindow.setScene(new Scene(root, 600, 400));
+        configWindow.setResizable(false);
         configWindow.showAndWait();
 
         Controller.setImageFilter(ImageUtils.jpeg, ImageUtils.jpg, ImageUtils.png, ImageUtils.gif, ImageUtils.tif, ImageUtils.tiff);
@@ -37,7 +38,8 @@ public class Main extends Application {
         Stage menuStage = new Stage();
         Parent root = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
         menuStage.setTitle("Main Menu");
-        menuStage.setScene(new Scene(root, 800, 600));
+        menuStage.setScene(new Scene(root, 600, 400));
+        menuStage.setResizable(false);
         Controller.mainStage = menuStage;
         menuStage.showAndWait();
     }

@@ -2,11 +2,15 @@ package sample;
 
 
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Point2D;
+import javafx.scene.Cursor;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -47,6 +51,19 @@ public class ScanConfigurator implements Initializable {
                 rectangles.push(selection);
                 Controller.defaultPositions.push(new DefaultScan(initialPoint, clickedPoint, imageView));
                 initialPoint = null;
+            }
+        });
+        imageView.setOnMouseEntered(new EventHandler() {
+            @Override
+            public void handle(Event me) {
+                paneView.getScene().setCursor(Cursor.CROSSHAIR); //Change cursor to hand
+            }
+        });
+
+        imageView.setOnMouseExited(new EventHandler() {
+            @Override
+            public void handle(Event me) {
+                paneView.getScene().setCursor(Cursor.DEFAULT); //Change cursor to crosshair
             }
         });
     }

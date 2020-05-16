@@ -7,7 +7,6 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-import javax.swing.*;
 import java.io.*;
 import java.util.Properties;
 
@@ -26,7 +25,7 @@ public class Configurator {
         stage.close();
     }
 
-    public void saveKey(ActionEvent actionEvent) {
+    public void saveAzureKey(ActionEvent actionEvent) {
         String key = azureSubscriptionKey.getText();
         try{
             Properties prop = new Properties();
@@ -46,7 +45,7 @@ public class Configurator {
         }
     }
 
-    public void saveEndpoint(ActionEvent actionEvent) {
+    public void saveAzureEndpoint(ActionEvent actionEvent) {
         String endpoint = azureEndpoint.getText();
         try{
             Properties prop = new Properties();
