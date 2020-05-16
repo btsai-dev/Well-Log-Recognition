@@ -10,7 +10,6 @@ import javafx.geometry.Point2D;
 import javafx.scene.Cursor;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -37,7 +36,7 @@ public class ScanConfigurator implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         points = new Stack<Point2D>();
         rectangles = new Stack<Rectangle>();
-        imageView.setImage(Controller.getScanImage());
+        imageView.setImage(Controller.getScanImageForCropping());
         imageView.setOnMouseClicked(event -> {
             Point2D clickedPoint = new Point2D(event.getX(), event.getY());
             if (initialPoint == null){

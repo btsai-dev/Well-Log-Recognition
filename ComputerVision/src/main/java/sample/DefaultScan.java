@@ -4,8 +4,6 @@ import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-import java.util.ArrayList;
-
 public class DefaultScan {
     // Points located are fitted to be between 0 and 1
     Image image;
@@ -15,7 +13,7 @@ public class DefaultScan {
     double endY;
 
     public DefaultScan(Point2D p1, Point2D p2, ImageView imageView){
-        image = Controller.getScanImage();
+        image = Controller.getScanImageForCropping();
         double aspectRatio = image.getWidth() / image.getHeight();
         double realWidth = Math.min(imageView.getFitWidth(), imageView.getFitHeight() * aspectRatio);
         double realHeight = Math.min(imageView.getFitHeight(), imageView.getFitWidth() / aspectRatio);

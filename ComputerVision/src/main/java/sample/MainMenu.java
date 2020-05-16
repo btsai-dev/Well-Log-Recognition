@@ -1,14 +1,10 @@
 package sample;
-import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
@@ -19,26 +15,29 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.util.Properties;
 import java.util.Stack;
 
 public class MainMenu {
     private static String directoryPath;
-    private static String filePath;
+    private static String filePathForImageCropping;
+    private static String filePathForImageKeywords;
 
     @FXML
-    private Text ScanDirectory;
+    private Text DirectoryNameForProcessing;
 
     @FXML
-    private Text DefaultFile;
+    private Text NameOfFileSelectedForCropping;
 
     @FXML
-    private ImageView ScanImageDisplay;
+    private ImageView DisplayOfImageForCropping;
 
-    public void chooseDirectory(ActionEvent actionEvent){
+    @FXML
+    private Text NameOfFileSelectedForKeywords;
+
+
+    public void chooseDirectoryForProcessing(ActionEvent actionEvent){
         String userDirectoryString = System.getProperty("user.home");
         File userDirectory = new File(userDirectoryString);
         if(!userDirectory.canRead()) {
@@ -51,12 +50,33 @@ public class MainMenu {
         File chosen = dc.showDialog(Controller.mainStage);
         if(chosen != null) {
             directoryPath = chosen.getPath();
-            ScanDirectory.setText(directoryPath);
+            DirectoryNameForProcessing.setText(directoryPath);
         }
         System.out.println(directoryPath);
     }
 
-    public void chooseImageFile(ActionEvent actionEvent){
+    public void chooseImageFileForKeywords(ActionEvent actionEvent){
+        String userDirectoryString = System.getProperty("user.home");
+        File userDirectory = new File(userDirectoryString);
+        if(!userDirectory.canRead()) {
+            userDirectory = new File("c:/");
+        }
+        FileChooser fc = new FileChooser();
+        fc.setInitialDirectory(userDirectory);
+        fc.setTitle("Opening the location..");
+        File chosen = fc.showOpenDialog(Controller.mainStage);
+        if(chosen != null && ImageUtils.confirmType(chosen, Controller.getImageFilter() )) {
+            filePathForImageKeywords = chosen.getPath();
+            NameOfFileSelectedForKeywords.setText(filePathForImageKeywords);
+            setImageForCropping(filePathForImageKeywords);
+        }
+    }
+
+    public void AnalyzeImageForKeywords(ActionEvent actionEvent) {
+
+    }
+
+    public void chooseImageFileForCropping(ActionEvent actionEvent){
         String userDirectoryString = System.getProperty("user.home");
         File userDirectory = new File(userDirectoryString);
         if(!userDirectory.canRead()) {
@@ -68,27 +88,27 @@ public class MainMenu {
         fc.setTitle("Opening the location..");
         File chosen = fc.showOpenDialog(Controller.mainStage);
         if(chosen != null && ImageUtils.confirmType(chosen, Controller.getImageFilter() )) {
-            filePath = chosen.getPath();
-            DefaultFile.setText(filePath);
-            setImage(filePath);
+            filePathForImageCropping = chosen.getPath();
+            NameOfFileSelectedForCropping.setText(filePathForImageCropping);
+            setImageForCropping(filePathForImageCropping);
         }
     }
 
-    public void setImage(String filePath){
+    public void setImageForCropping(String filePath){
         if (filePath != null) {
             try {
                 FileInputStream input = new FileInputStream(filePath);
                 Image image = new Image(input);
-                ScanImageDisplay.setImage(image);
-                Controller.setScanImage(image);
+                DisplayOfImageForCropping.setImage(image);
+                Controller.setScanImageForCropping(image);
             } catch (Exception e){
                 e.printStackTrace();
             }
         }
     }
 
-    public void configureScan(ActionEvent actionEvent) throws IOException {
-        if (Controller.getScanImage() != null) {
+    public void configureCroppingLocations(ActionEvent actionEvent) throws IOException {
+        if (Controller.getScanImageForCropping() != null) {
             Controller.defaultPositions = new Stack<DefaultScan>();
             Stage configScanStage = new Stage();
             Parent root = FXMLLoader.load(getClass().getResource("ScanConfigurator.fxml"));
@@ -172,6 +192,7 @@ public class MainMenu {
             file.delete();
         }
     }
+
 
 
 }

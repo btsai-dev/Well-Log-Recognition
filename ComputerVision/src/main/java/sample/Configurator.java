@@ -38,7 +38,7 @@ public class Configurator {
             prop.setProperty("db.azureSubscriptionKey", key);
             prop.store(output, null);
             output.close();
-            Controller.loadAzureData(key, null);
+            Controller.setAzureData(key, null);
 
         } catch (IOException io) {
             io.printStackTrace();
@@ -58,7 +58,7 @@ public class Configurator {
             prop.setProperty("db.azureEndpoint", endpoint);
             prop.store(output, null);
             output.close();
-            Controller.loadAzureData(null, endpoint);
+            Controller.setAzureData(null, endpoint);
 
         } catch (IOException io) {
             io.printStackTrace();

@@ -22,7 +22,7 @@ public class Main extends Application {
                 File.separator+"config.properties";
         File config = new File(path);
         config.getParentFile().mkdirs();
-        Controller.setConfigPath(path);
+        Controller.configPath = path;
 
         Stage configWindow = new Stage();
         Parent root = FXMLLoader.load(getClass().getResource("Configurator.fxml"));
@@ -45,6 +45,12 @@ public class Main extends Application {
     }
 
     public static void main(String[] args){
-        launch(args);
+
+
+
+
+        final boolean LAUNCH = false;
+        if (LAUNCH)
+            launch(args);
     }
 }
