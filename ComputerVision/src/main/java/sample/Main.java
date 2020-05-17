@@ -5,7 +5,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.json.JSONObject;
 
 import java.io.*;
 
@@ -13,7 +12,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        LaunchConfiguration();
+        //LaunchConfiguration();
         LaunchMainMenu();
     }
 
@@ -26,7 +25,7 @@ public class Main extends Application {
         Controller.configPath = path;
 
         Stage configWindow = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("Configurator.fxml"));
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("Configurator.fxml"));
         configWindow.setTitle("Configuration");
         configWindow.setScene(new Scene(root, 600, 400));
         configWindow.setResizable(false);
@@ -37,23 +36,21 @@ public class Main extends Application {
 
     public void LaunchMainMenu() throws IOException {
         Stage menuStage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
+        // FXMLLoader mainLoader = new FXMLLoader(getClass().getResource("MainMenu.fxml"));
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("MainMenu.fxml"));
         menuStage.setTitle("Main Menu");
-        menuStage.setScene(new Scene(root, 600, 400));
-        menuStage.setResizable(false);
+        menuStage.setScene(new Scene(root, 800, 600));
+        //menuStage.setResizable(false);
+        menuStage.setMaximized(true);
+        menuStage.setMinWidth(800);
+        menuStage.setMinHeight(600);
         Controller.mainStage = menuStage;
         menuStage.showAndWait();
     }
 
     public static void main(String[] args){
-        String key = "ffcd9ea1d1104c17b794879fa4262228";
-        String endpoint = "https://lsu-frank-tsai.cognitiveservices.azure.com/";
-        AnalysisMicrosoftAzure test = new AnalysisMicrosoftAzure("C:\\Users\\godon\\__LMAOOO\\001-5032Z.png", endpoint, key);
-        test.analyze();
 
-
-
-        final boolean LAUNCH = false;
+        final boolean LAUNCH = true;
         if (LAUNCH)
             launch(args);
     }
