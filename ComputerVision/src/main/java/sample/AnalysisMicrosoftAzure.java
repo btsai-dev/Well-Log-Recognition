@@ -52,6 +52,10 @@ public class AnalysisMicrosoftAzure {
         }
     }
 
+    /**
+     * Analyzes and returns JSONObject from Microsoft Azure
+     * @return
+     */
     public JSONObject analyze() {
         boolean analyzePrint = false;
         System.out.println("ANALYZING");
@@ -210,11 +214,6 @@ public class AnalysisMicrosoftAzure {
         return jsonResponse;
     }
 
-    private byte[] convertImageToBytes() throws IOException {
-        BufferedImage bImage = ImageIO.read(new File(imagePath));
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        ImageIO.write(bImage, "PNG", bos );
-        return bos.toByteArray();
-    }
+    
 
 }

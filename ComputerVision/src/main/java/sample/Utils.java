@@ -3,7 +3,11 @@ package sample;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.util.HashSet;
 
 public class Utils {
@@ -82,6 +86,18 @@ public class Utils {
             userDirectory = new File("c:/");
         }
         return userDirectory;
+    }
+
+    /**
+     * Converts image file to bytes
+     * @return
+     * @throws IOException
+     */
+    private byte[] convertImageToBytes(File img) throws IOException {
+        BufferedImage bImage = ImageIO.read(img);
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ImageIO.write(bImage, "PNG", bos );
+        return bos.toByteArray();
     }
 
 }

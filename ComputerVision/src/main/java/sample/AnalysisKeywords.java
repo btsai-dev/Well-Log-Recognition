@@ -8,12 +8,15 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 
 public class AnalysisKeywords {
     private static HashSet<String> keywords;                                            // Hashset of all keywords
     private static HashMap<String, ArrayList<ScanTargetPair>> keyScanAssociations;      // Hashmap of each keyword and the pairs
 
+    /**
+     * Executes scanning and computer vision upon button press
+     * @param actionEvent
+     */
     public void execute(ActionEvent actionEvent){
         // Run all checks
         if(!runChecks())
@@ -29,6 +32,10 @@ public class AnalysisKeywords {
         }
     }
 
+    /**
+     * Helper program that analyzes files
+     * @param file
+     */
     private static void analyze(File file){
         AnalysisMicrosoftAzure analysisObject = new AnalysisMicrosoftAzure(file.getPath());
         JSONObject fullScanResults = analysisObject.analyze();
@@ -50,6 +57,11 @@ public class AnalysisKeywords {
         }
     }
 
+    /**
+     * Helper program for debugging
+     * @param file
+     * @param keywords
+     */
     public static void analyze(File file, HashSet<String> keywords){
         AnalysisKeywords.keywords = keywords;
         AnalysisMicrosoftAzure analysisObject = new AnalysisMicrosoftAzure(file.getPath(), "https://lsu-frank-tsai.cognitiveservices.azure.com/", "ffcd9ea1d1104c17b794879fa4262228");
@@ -83,10 +95,10 @@ public class AnalysisKeywords {
     }
 
     /**
-     * If dimensions are within 5% of the expected dimension, return true
+     * Processes information
      * @return
      */
-    private boolean isExpected(ScanProperties scan, String keyword){
+    private void process(ScanProperties scan, String keyword){
         ArrayList<ScanTargetPair> list = keyScanAssociations.get(keyword);
         if (list != null){
             // Indicates that there is a stored scan section for that keyword
@@ -125,6 +137,10 @@ public class AnalysisKeywords {
         }
     }
 
+    /**
+     * Helper program that determines execution should run
+     * @return
+     */
     private boolean runChecks(){
         return true;
     }

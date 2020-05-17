@@ -1,6 +1,9 @@
 package sample;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 
 public class ScanProperties {
     private File imageFile;
@@ -13,16 +16,32 @@ public class ScanProperties {
     private double scanRelativeX2;
     private double scanRelativeY2;
 
-    public ScanProperties(File imageFile){
+    public ScanProperties(File imageFile) throws IOException {
         this.imageFile = imageFile;
+        try {
+            BufferedImage bimg = ImageIO.read(imageFile);
+            this.imageWidth = bimg.getWidth();
+            this.imageHeight = bimg.getHeight();
+        } catch(Exception e){
+            e.printStackTrace();
+            System.exit(0);
+        }
     }
 
     public ScanProperties(File imageFile, int width, int height){
-        this.imageFile = imageFile;
         this.imageWidth = width;
         this.imageHeight = height;
     }
 
+    public ScanProperties(int width, int height){
+        this.imageWidth = width;
+        this.imageHeight = height;
+    }
+
+    /**
+     * Adds a scan
+     * @param boundingBox
+     */
     public void addScan(int[] boundingBox){
         // Bounding box has format (x,y) in [top-right, top-left, bottom-left, bottom-right]
         scanRelativeX1 = Math.min(boundingBox[0], boundingBox[6]) / (double) imageWidth;
@@ -41,6 +60,11 @@ public class ScanProperties {
         this.imageHeight = imageHeight;
     }
 
+    /**
+     * Returns percentage results of difference between scans
+     * @param scans
+     * @return
+     */
     public double[] compareTo(ScanProperties scan){
         double[] arr = { 100 * Math.abs(scan.scanRelativeX1 - this.scanRelativeX1),
                 100 * Math.abs(scan.scanRelativeY1 - this.scanRelativeY1),
