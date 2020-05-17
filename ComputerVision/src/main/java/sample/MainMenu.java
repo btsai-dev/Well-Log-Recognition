@@ -3,70 +3,110 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Point2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
-import javafx.stage.FileChooser;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import org.json.JSONObject;
+import jdk.jshell.execution.Util;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.Stack;
 
 public class MainMenu implements Initializable {
-    private static String directoryPath;
-    private static String filePathForImageCropping;
+    @FXML
+    private TextField keywordAdditionField;
 
     @FXML
-    private TextField targetAnalysisDirectory;
+    private TextField targetAnalysisDirectoryField;
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        File defaultDirectory = getUserDirectory();
-        if (defaultDirectory != null){
-            targetAnalysisDirectory.setText(defaultDirectory.getParent());
+    @FXML
+    private VBox keywordsDisplayVBox;
+
+    /**
+     * Executes file analysis through keywords
+     * @param actionEvent
+     */
+    public void executeKeywords(ActionEvent actionEvent) throws IOException {
+        Stage analysisStage = new Stage();
+        Parent root = FXMLLoader.load(getClass().getResource("/AnalysisKeywords.fxml"));
+        analysisStage.setTitle("Analyzing");
+        analysisStage.setScene(new Scene(root, 400, 300));
+        analysisStage.setResizable(false);
+        analysisStage.showAndWait();
+    }
+
+    /**
+     * Resets entire list of keywords
+     * @param actionEvent
+     */
+    public void resetKeywords(ActionEvent actionEvent){
+        // Clear out the VBox and the keywords list
+        keywordsDisplayVBox.getChildren().clear();
+        Controller.clearKeywordList();
+    }
+
+    /**
+     * Submits keyword
+     * @param actionEvent
+     */
+    public void submitKeyword(ActionEvent actionEvent){
+        String keywordSubmission = keywordAdditionField.getText();
+        // Make sure something valid exists in the submission field and has not been submitted
+        if (keywordSubmission != null
+                && keywordSubmission.length() > 0
+                && keywordSubmission.length() <= Utils.MAX_KEYWORD_LENGTH
+                && !Controller.isInKeywordList(keywordSubmission)){
+            // Adds keyword to stack of keywords and scrolllist of keywords
+            Controller.addKeyword(keywordSubmission);
+            keywordsDisplayVBox.getChildren().add(new Text(keywordSubmission));
         }
     }
 
-    @FXML
-    private Text DirectoryNameForProcessing;
-
+    /**
+     * Selects the directory upon button press
+     * @param actionEvent
+     */
     public void chooseDirectoryForProcessing(ActionEvent actionEvent){
-        String userDirectoryString = System.getProperty("user.home");
-        File userDirectory = new File(userDirectoryString);
+        // Sets the directory for analysis
+        File userDirectory = new File(targetAnalysisDirectoryField.getText());
         if(!userDirectory.canRead()) {
             userDirectory = new File("c:/");
         }
 
+        // Opens the directory chooser
         DirectoryChooser dc = new DirectoryChooser();
         dc.setInitialDirectory(userDirectory);
         dc.setTitle("Opening the location..");
+
+        // Gets chosen file
         File chosen = dc.showDialog(Controller.mainStage);
         if(chosen != null) {
-            directoryPath = chosen.getPath();
-            DirectoryNameForProcessing.setText(directoryPath);
+            String path = chosen.getPath();
+            Controller.targetAnalysisDirectoryPath = path; // Alters global variable
+            targetAnalysisDirectoryField.setText(path); // Sets text in textfield
         }
-        System.out.println(directoryPath);
     }
 
-    private File getUserDirectory(){
-        String userDirectoryString = System.getProperty("user.home");
-        File userDirectory = new File(userDirectoryString);
-        if(!userDirectory.canRead()) {
-            userDirectory = new File("c:/");
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        // TODO: STORE CONFIG DATA IN USER'S APPDATA FOLDER
+        // Sets the path to the config file
+        String path = System.getProperty("user.home") +
+                File.separator+ "WellLogAnalysis" +
+                File.separator+"config.properties";
+        File config = new File(path);
+        config.getParentFile().mkdirs();
+        Controller.configPath = path;
+
+        // Sets the default directory text in the CONFIGURE ANALYSIS tab
+        File defaultDirectory = Utils.getUserDirectory();
+        if (defaultDirectory != null){
+            targetAnalysisDirectoryField.setText(defaultDirectory.getPath());
         }
-        return userDirectory;
     }
 
 
@@ -74,7 +114,9 @@ public class MainMenu implements Initializable {
 
 
 
-    /**
+
+/**
+
     public void chooseImageFileForCropping(ActionEvent actionEvent){
         FileChooser fc = new FileChooser();
         fc.setInitialDirectory(getUserDirectory());
@@ -169,10 +211,8 @@ public class MainMenu implements Initializable {
         }
     }
 
+*/
 
-
-
-     **/
 
 
 

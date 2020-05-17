@@ -19,7 +19,7 @@ public class Main extends Application {
         Stage menuStage = new Stage();
         Parent root = FXMLLoader.load(getClass().getResource("/MainMenu.fxml"));
         menuStage.setTitle("Main Menu");
-        menuStage.setScene(new Scene(root, 800, 600));
+        menuStage.setScene(new Scene(root));
         menuStage.setMaximized(true);
         menuStage.setMinWidth(800);
         menuStage.setMinHeight(600);
@@ -34,7 +34,7 @@ public class Main extends Application {
     public void LaunchConfiguration() throws IOException {
         Stage configWindow = new Stage();
         try {
-            Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("Configurator.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/Configurator.fxml"));
             configWindow.setTitle("Configuration");
             configWindow.setScene(new Scene(root, 600, 400));
             configWindow.setResizable(false);

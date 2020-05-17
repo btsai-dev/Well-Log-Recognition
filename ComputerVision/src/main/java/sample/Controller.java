@@ -8,47 +8,63 @@ import java.util.HashSet;
 import java.util.Stack;
 
 public class Controller {
-    public static String configPath;
-    private static HashMap<String, String> azureData = new HashMap<String, String>();
-    private static HashSet<String> imageFilter = new HashSet<String>();
+    // Public fields
+    public static Stage mainStage;                                      // Stage for the main GUI
+    public static String configPath;                                    // Path to the config file
+    public static String targetAnalysisDirectoryPath;                   // Path to the directory for analysis
+    public static HashSet<String> imageFilter = new HashSet<>();        // Set of allowed image extensions
 
-    public static Stage mainStage;
-    private static String scanDirectory;
+    // Private fields
+    private static HashMap<String, String> azureData = new HashMap<>(); // Microsoft Azure authentication data
+    private static HashSet<String> listOfKeywords = new HashSet<>();    // List of keywords to check
 
-    private static Image scanImageForCropping;
+
 
     public static Stack<DefaultScan> defaultPositions;
 
-    public static void setAzureData(String key, String endpoint){
-        if (key != null)
+
+    /**
+     * Add keys and endpoint to the hashmap
+     * @param key Microsoft Azure subscription key
+     * @param endpoint Microsoft Azure endpoint
+     */
+    public static void setAzureData(String key, String endpoint) {
+        if (key != null) // prevents accidental overriding
             azureData.put("key", key);
-        if (endpoint != null)
+        if (endpoint != null) // prevents accidental overriding
             azureData.put("endpoint", endpoint);
     }
 
-    public static HashMap loadAzureData(){
+    /**
+     * Returns the hashmap of authentication details
+     * @return
+     */
+    public static HashMap loadAzureData() {
         return azureData;
     }
 
-    public static void setScanDirectory(String path){
-        scanDirectory = path;
-    }
-
-    public static void setImageFilter(String... args){
-        for (String extension : args){
+    /**
+     * Adds whitelisted extensions to the ImageFilter
+     * @param args
+     */
+    public static void setImageFilter(String... args) {
+        for (String extension : args) {
             imageFilter.add(extension);
         }
     }
 
-    public static HashSet getImageFilter(){
-        return imageFilter;
+    public static void addKeyword(String... keywords){
+        for (String keyword : keywords){
+            listOfKeywords.add(keyword);
+        }
     }
 
-    public static void setScanImageForCropping(Image image){
-        scanImageForCropping = image;
+    public static void clearKeywordList(){
+        listOfKeywords.clear();
     }
 
-    public static Image getScanImageForCropping(){
-        return scanImageForCropping;
+    public static boolean isInKeywordList(String keyword){
+        return listOfKeywords.contains(keyword);
     }
+
 }

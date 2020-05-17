@@ -13,9 +13,12 @@ public class Utils {
     public final static String tiff = "tiff";
     public final static String tif = "tif";
     public final static String png = "png";
+    public final static int MAX_KEYWORD_LENGTH = 50;
 
-    /*
-     * Get the extension of a file.
+    /**
+     * Gets a file extension File Object
+     * @param f File to extract extension from
+     * @return
      */
     public static String getExtension(File f) {
         String ext = null;
@@ -28,28 +31,24 @@ public class Utils {
         return ext;
     }
 
-    /*
-     * Get the extension of a file.
+    /**
+     * Check to see if file type of File Object is whitelisted
+     * @param file
+     * @param filter
+     * @return
      */
-    public static boolean confirmType(File file, HashSet<String> filter) {
+    public static boolean fileTypeIsAllowed(File file, HashSet<String> filter) {
         String extension = getExtension(file);
         if (filter.contains(extension))
             return true;
         return false;
     }
 
-    /*
-     * Get the extension of a file.
+    /**
+     * Recursively deletes everything within a directory, excluding the directory itself
+     * @param dir directory whose children are to be purged
      */
-    public static boolean confirmType(String filepath, HashSet<String> filter) {
-        File file = new File(filepath);
-        String extension = getExtension(file);
-        if (filter.contains(extension))
-            return true;
-        return false;
-    }
-
-    public void purgeDirectory(File dir) {
+    public static void purgeDirectory(File dir) {
         for (File file: dir.listFiles()) {
             if (file.isDirectory())
                 purgeDirectory(file);
@@ -57,13 +56,32 @@ public class Utils {
         }
     }
 
-    public Rectangle getRect(Point2D p1, Point2D p2) {
+    /**
+     * Creates a rectangle object out of two Point2D objects representing corners
+     * @param p1 First corner
+     * @param p2 Second corner
+     * @return
+     */
+    public static Rectangle getRect(Point2D p1, Point2D p2) {
         return new Rectangle(
                 Math.min(p1.getX(), p2.getX()),
                 Math.min(p1.getY(), p2.getY()),
                 Math.abs(p1.getX() - p2.getX()),
                 Math.abs(p1.getY() - p2.getY())
         );
+    }
+
+    /**
+     * Returns File Object representation of the userdirectory.
+     * @return
+     */
+    public static File getUserDirectory(){
+        String userDirectoryString = System.getProperty("user.home");
+        File userDirectory = new File(userDirectoryString);
+        if(!userDirectory.canRead()) {
+            userDirectory = new File("c:/");
+        }
+        return userDirectory;
     }
 
 }

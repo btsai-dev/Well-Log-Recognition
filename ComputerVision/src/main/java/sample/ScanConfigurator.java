@@ -32,11 +32,13 @@ public class ScanConfigurator implements Initializable {
     private Image display;
 
     private static Point2D initialPoint;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        /**
         points = new Stack<Point2D>();
         rectangles = new Stack<Rectangle>();
-        imageView.setImage(Controller.getScanImageForCropping());
+        imageView.setImage(Controller.getScanImageForCropping);
         imageView.setOnMouseClicked(event -> {
             Point2D clickedPoint = new Point2D(event.getX(), event.getY());
             if (initialPoint == null){
@@ -65,7 +67,9 @@ public class ScanConfigurator implements Initializable {
                 paneView.getScene().setCursor(Cursor.DEFAULT); //Change cursor to crosshair
             }
         });
+         */
     }
+
 
     private Rectangle getRect(Point2D p1, Point2D p2) {
         return new Rectangle(

@@ -13,6 +13,7 @@ public class DefaultScan {
     double endY;
 
     public DefaultScan(Point2D p1, Point2D p2, ImageView imageView){
+        /**
         image = Controller.getScanImageForCropping();
         double aspectRatio = image.getWidth() / image.getHeight();
         double realWidth = Math.min(imageView.getFitWidth(), imageView.getFitHeight() * aspectRatio);
@@ -21,6 +22,7 @@ public class DefaultScan {
         startY = p1.getY() / realHeight;
         endX = p2.getX() / realWidth;
         endY = p2.getY() / realHeight;
+         */
     }
 
     public Point2D[] returnCornersImageReference(){

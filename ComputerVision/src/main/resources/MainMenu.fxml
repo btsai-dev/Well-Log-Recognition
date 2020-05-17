@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
@@ -50,12 +52,12 @@
                               </Text>
                            </children>
                         </TextFlow>
-                        <TextField layoutX="215.0" layoutY="22.0" AnchorPane.leftAnchor="220.0" AnchorPane.rightAnchor="150.0">
+                        <TextField fx:id="keywordAdditionField" layoutX="215.0" layoutY="22.0" AnchorPane.leftAnchor="220.0" AnchorPane.rightAnchor="150.0">
                            <font>
                               <Font size="16.0" />
                            </font>
                         </TextField>
-                        <Button layoutX="1151.0" layoutY="15.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="100.0" text="SUBMIT" AnchorPane.rightAnchor="25.0">
+                        <Button layoutX="1151.0" layoutY="15.0" mnemonicParsing="false" onAction="#submitKeyword" prefHeight="45.0" prefWidth="100.0" text="SUBMIT" AnchorPane.rightAnchor="25.0">
                            <font>
                               <Font size="16.0" />
                            </font>
@@ -69,12 +71,34 @@
                               </Text>
                            </children>
                         </TextFlow>
-                        <TextField fx:id="targetAnalysisDirectory" editable="false" layoutX="258.0" layoutY="72.0" AnchorPane.leftAnchor="220.0" AnchorPane.rightAnchor="150.0">
+                        <TextField fx:id="targetAnalysisDirectoryField" editable="false" layoutX="258.0" layoutY="72.0" AnchorPane.leftAnchor="220.0" AnchorPane.rightAnchor="150.0">
                            <font>
                               <Font size="16.0" />
                            </font>
                         </TextField>
-                        <Button layoutX="1158.0" layoutY="68.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="100.0" text="CHANGE" AnchorPane.rightAnchor="25.0">
+                        <Button layoutX="1158.0" layoutY="68.0" mnemonicParsing="false" onAction="#chooseDirectoryForProcessing" prefHeight="45.0" prefWidth="100.0" text="CHANGE" AnchorPane.rightAnchor="25.0">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Button>
+                        <TextFlow layoutX="1029.0" layoutY="129.0" AnchorPane.rightAnchor="90.0">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="KEYWORD LIST">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </TextFlow>
+                        <ScrollPane hbarPolicy="NEVER" layoutX="955.0" layoutY="169.0" prefHeight="400.0" prefWidth="300.0" AnchorPane.bottomAnchor="100.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="170.0">
+                           <content>
+                              <VBox fx:id="keywordsDisplayVBox" />
+                           </content>
+                           <padding>
+                              <Insets bottom="10.0" left="5.0" right="10.0" top="5.0" />
+                           </padding>
+                        </ScrollPane>
+                        <Button layoutX="1054.0" layoutY="590.0" mnemonicParsing="false" onAction="#resetKeywords" prefHeight="45.0" prefWidth="100.0" text="CLEAR" textAlignment="CENTER" AnchorPane.bottomAnchor="36.0" AnchorPane.rightAnchor="126.0">
                            <font>
                               <Font size="16.0" />
                            </font>
