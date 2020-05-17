@@ -9,8 +9,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
-import jdk.jshell.execution.Util;
+import javafx.stage.StageStyle;
 
 import java.io.*;
 import java.net.URL;
@@ -36,6 +37,8 @@ public class MainMenu implements Initializable {
         analysisStage.setTitle("Analyzing");
         analysisStage.setScene(new Scene(root, 400, 300));
         analysisStage.setResizable(false);
+        analysisStage.initStyle(StageStyle.UNDECORATED);
+        analysisStage.initModality(Modality.APPLICATION_MODAL);
         analysisStage.showAndWait();
     }
 
@@ -85,20 +88,18 @@ public class MainMenu implements Initializable {
         // Gets chosen file
         File chosen = dc.showDialog(Controller.mainStage);
         if(chosen != null) {
-            String path = chosen.getPath();
-            Controller.targetAnalysisDirectoryPath = path; // Alters global variable
-            targetAnalysisDirectoryField.setText(path); // Sets text in textfield
+            Controller.setTargetAnalysisDirectory(chosen); // Alters global variable
+            targetAnalysisDirectoryField.setText(chosen.getPath()); // Sets text in textfield
         }
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // TODO: STORE CONFIG DATA IN USER'S APPDATA FOLDER
         // Sets the path to the config file
         String path = System.getProperty("user.home") +
                 File.separator+ "WellLogAnalysis" +
                 File.separator+"config.properties";
-        File config = new File(path);
+        File config = new File(path); // TODO: STORE CONFIG DATA IN USER'S APPDATA FOLDER
         config.getParentFile().mkdirs();
         Controller.configPath = path;
 

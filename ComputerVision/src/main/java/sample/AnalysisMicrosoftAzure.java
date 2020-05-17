@@ -35,7 +35,7 @@ public class AnalysisMicrosoftAzure {
 
     public AnalysisMicrosoftAzure(String imagePath){
         this.imagePath = imagePath;
-        authentication = Controller.loadAzureData();
+        authentication = Controller.loadAzureData(); // TODO: ADD DECRYPTION OF DATA
         endpoint = authentication.get("endpoint");
         subscriptionKey = authentication.get("key");
         if(endpoint != null && subscriptionKey != null){
@@ -198,9 +198,9 @@ public class AnalysisMicrosoftAzure {
                 if (responseEntity != null) {
                     // Format and display the JSON response.
                     String jsonString = EntityUtils.toString(responseEntity);
-                    JSONObject json = new JSONObject(jsonString);
+                    jsonResponse = new JSONObject(jsonString);
                     System.out.println("Text recognition result response: \n");
-                    System.out.println(json.toString(2));
+                    System.out.println(jsonResponse.toString(2));
                 }
             } catch (Exception e) {
                 System.out.println(e.getMessage());

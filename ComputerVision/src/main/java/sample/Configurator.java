@@ -26,8 +26,8 @@ public class Configurator {
     }
 
     public void saveAzureKey(ActionEvent actionEvent) {
-        String key = azureSubscriptionKey.getText();
-        // TODO: CONVERT THE KEY TO AN ENCRYPTED VALUE BEFORE SAVING IT
+        String key = azureSubscriptionKey.getText(); // TODO: CONVERT THE KEY TO AN ENCRYPTED VALUE BEFORE SAVING IT
+
         try{
             Properties prop = new Properties();
 

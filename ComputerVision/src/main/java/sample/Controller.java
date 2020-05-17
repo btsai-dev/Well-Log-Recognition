@@ -1,8 +1,8 @@
 package sample;
 
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Stack;
@@ -11,12 +11,12 @@ public class Controller {
     // Public fields
     public static Stage mainStage;                                      // Stage for the main GUI
     public static String configPath;                                    // Path to the config file
-    public static String targetAnalysisDirectoryPath;                   // Path to the directory for analysis
     public static HashSet<String> imageFilter = new HashSet<>();        // Set of allowed image extensions
 
     // Private fields
     private static HashMap<String, String> azureData = new HashMap<>(); // Microsoft Azure authentication data
     private static HashSet<String> listOfKeywords = new HashSet<>();    // List of keywords to check
+    private static File targetAnalysisDirectory;                    // Path to the directory for analysis
 
 
 
@@ -67,4 +67,15 @@ public class Controller {
         return listOfKeywords.contains(keyword);
     }
 
+    public static HashSet<String> getListOfKeywords(){
+        return listOfKeywords;
+    }
+
+    public static File getTargetAnalysisDirectory() {
+        return targetAnalysisDirectory;
+    }
+
+    public static void setTargetAnalysisDirectory(File targetAnalysisDirectory) {
+        Controller.targetAnalysisDirectory = targetAnalysisDirectory;
+    }
 }
