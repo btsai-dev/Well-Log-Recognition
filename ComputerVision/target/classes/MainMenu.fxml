@@ -109,7 +109,14 @@
           </Tab>
           <Tab text="Execute Processing">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#executeKeywords" prefHeight="45.0" prefWidth="100.0" text="EXECUTE">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Button>
+                     </children></AnchorPane>
             </content>
           </Tab>
         </tabs>

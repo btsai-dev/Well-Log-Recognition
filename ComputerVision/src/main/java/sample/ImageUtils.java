@@ -14,7 +14,7 @@ public class ImageUtils {
     /*
      * Get the extension of a file.
      */
-    public static String getExtension(File f) {
+    private static String getExtension(File f) {
         String ext = null;
         String s = f.getName();
         int i = s.lastIndexOf('.');
@@ -41,6 +41,18 @@ public class ImageUtils {
     public static boolean confirmType(String filepath, HashSet<String> filter) {
         File file = new File(filepath);
         String extension = getExtension(file);
+        if (filter.contains(extension))
+            return true;
+        return false;
+    }
+
+    public static boolean confirmType(File file) {
+        String extension = getExtension(file);
+        HashSet<String> filter = new HashSet<>();
+        filter.add("tiff");
+        filter.add("tif");
+        filter.add("png");
+        filter.add("jpg");
         if (filter.contains(extension))
             return true;
         return false;

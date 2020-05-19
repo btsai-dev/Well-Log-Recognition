@@ -36,7 +36,7 @@ public class ScanConfigurator implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         /**
-        points = new Stack<Point2D>();
+
         rectangles = new Stack<Rectangle>();
         imageView.setImage(Controller.getScanImageForCropping);
         imageView.setOnMouseClicked(event -> {

@@ -32,14 +32,7 @@ public class MainMenu implements Initializable {
      * @param actionEvent
      */
     public void executeKeywords(ActionEvent actionEvent) throws IOException {
-        Stage analysisStage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("/AnalysisKeywords.fxml"));
-        analysisStage.setTitle("Analyzing");
-        analysisStage.setScene(new Scene(root, 400, 300));
-        analysisStage.setResizable(false);
-        analysisStage.initStyle(StageStyle.UNDECORATED);
-        analysisStage.initModality(Modality.APPLICATION_MODAL);
-        analysisStage.showAndWait();
+        AnalysisKeywords.execute();
     }
 
     /**
@@ -182,7 +175,7 @@ public class MainMenu implements Initializable {
                             fname = fname.substring(0, pos);
                         }
 
-                        System.out.println("Loading file " + fname);
+
 
                         String saveFolderPath = directoryPath + "/Cropped/" + fname;
                         File saveDirectory = new File(saveFolderPath);

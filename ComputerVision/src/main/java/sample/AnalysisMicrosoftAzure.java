@@ -58,7 +58,7 @@ public class AnalysisMicrosoftAzure {
      */
     public JSONObject analyze() {
         boolean analyzePrint = false;
-        System.out.println("ANALYZING");
+        System.out.println("Sending to Azure.");
         if (analyzePrint) {
             CloseableHttpClient httpClient = HttpClientBuilder.create().build();
             try {
@@ -203,8 +203,8 @@ public class AnalysisMicrosoftAzure {
                     // Format and display the JSON response.
                     String jsonString = EntityUtils.toString(responseEntity);
                     jsonResponse = new JSONObject(jsonString);
-                    System.out.println("Text recognition result response: \n");
-                    System.out.println(jsonResponse.toString(2));
+                    System.out.println("Response Received.");
+                    //System.out.println(jsonResponse.toString(2));
                 }
             } catch (Exception e) {
                 System.out.println(e.getMessage());
