@@ -42,7 +42,7 @@ public class Scan {
     }
 
     /**
-     * Adds a scan
+     * Generates scan relative dimensions from a bounding box
      * @param boundingBox
      */
     public void addScan(int[] boundingBox){
@@ -56,7 +56,8 @@ public class Scan {
     }
 
     /**
-     * Adds a scan
+     * Generates scan relative dimensions from a geometric Rectangle
+     * @param rectangle
      */
     public void addScan(Rectangle rectangle){
         scanRelativeX1 = rectangle.getX() / (double) imageWidth;
@@ -78,7 +79,7 @@ public class Scan {
     /**
      * Returns percentage results of difference between scans
      * @param scan
-     * @return
+     * @return box with differences between the X1,Y1,X2,Y2 dimensions
      */
     public double[] compareTo(Scan scan){
         double[] arr = { 100 * Math.abs(scan.scanRelativeX1 - this.scanRelativeX1),
@@ -89,6 +90,12 @@ public class Scan {
         return arr;
     }
 
+    /**
+     * Creates a rectangle object relative to given image width and height
+     * @param imgWidth
+     * @param imgHeight
+     * @return
+     */
     public Rectangle getRectangle(int imgWidth, int imgHeight){
          int X = (int) Math.floor(scanRelativeX1 * imgWidth);
          int Y = (int) Math.floor(scanRelativeY1 * imgHeight);
