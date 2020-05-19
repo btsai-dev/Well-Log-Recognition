@@ -38,10 +38,13 @@ public class ApplyKeywordCorrections {
     private Rectangle rectangle;
     private Circle initialCircle;
     private File fullImageFile;
+    private boolean submittedForReview;
 
     public void initData(File imgFile, ScanProperties keywordScan, int[] fullDim){
         fullImageFile = imgFile;
+        submittedForReview = false;
         DisplayedImageView.setPreserveRatio(true);
+
         DisplayedImageView.setImage(new Image(imgFile.toURI().toString()));
         ResetButton.setDisable(true);
         SaveButton.setDisable(true);
@@ -93,9 +96,12 @@ public class ApplyKeywordCorrections {
     public void SaveButtonPressed(ActionEvent actionEvent)  {
         Stage stage = (Stage) SaveButton.getScene().getWindow();
         stage.close();
-
     }
     public void ResetButtonPressed(ActionEvent actionEvent)  {
+        reset();
+    }
+
+    private void reset(){
         initialPoint = null;
         finalPoint = null;
         DisplayedPane.getChildren().remove(rectangle);
@@ -105,6 +111,9 @@ public class ApplyKeywordCorrections {
         SaveButton.setDisable(true);
         ResetButton.setDisable(true);
     }
+    public boolean submittedForReview(){
+        return submittedForReview;
+    }
 
     public ScanProperties getLastScan() throws IOException{
         if (rectangle != null) {
@@ -113,6 +122,14 @@ public class ApplyKeywordCorrections {
             return target;
         } else
             return null;
+    }
+
+    public void SubmitForReview(ActionEvent actionEvent){
+        Controller.submitFileForReview(fullImageFile);
+        submittedForReview = true;
+        reset();
+        Stage stage = (Stage) SaveButton.getScene().getWindow();
+        stage.close();
     }
 
 }

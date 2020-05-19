@@ -8,6 +8,8 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.FileSystem;
+import java.nio.file.Path;
 import java.util.HashSet;
 
 public class Utils {
@@ -18,6 +20,10 @@ public class Utils {
     public final static String tif = "tif";
     public final static String png = "png";
     public final static int MAX_KEYWORD_LENGTH = 50;
+
+    public static String filter(String input){
+        return (input.replaceAll("[^a-zA-Z0-9]", "")).toUpperCase();
+    }
 
     /**
      * Gets a file extension File Object
@@ -98,6 +104,27 @@ public class Utils {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         ImageIO.write(bImage, "PNG", bos );
         return bos.toByteArray();
+    }
+
+    public static Path getCacheFolder(final FileSystem fs) {
+        String osName = System.getProperty("os.name");
+        // macOS
+        if (osName.toLowerCase().contains("mac")) {
+            return fs.getPath(System.getProperty("user.home"), "Library", "Caches");
+        }
+
+        // Linux
+        if (osName.contains("nix") || osName.contains("nux") || osName.contains("aix")) {
+            return fs.getPath(System.getProperty("user.home"), ".cache");
+        }
+
+        // Windows
+        if (osName.contains("indows")) {
+            return fs.getPath(System.getenv("LOCALAPPDATA"), "Caches");
+        }
+
+        // A reasonable fallback
+        return fs.getPath(System.getProperty("user.home"), "caches");
     }
 
 }

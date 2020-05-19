@@ -204,7 +204,7 @@ public class AnalysisMicrosoftAzure {
                     String jsonString = EntityUtils.toString(responseEntity);
                     jsonResponse = new JSONObject(jsonString);
                     System.out.println("Response Received.");
-                    //System.out.println(jsonResponse.toString(2));
+                    // System.out.println(jsonResponse.toString(2));
                 }
             } catch (Exception e) {
                 System.out.println(e.getMessage());

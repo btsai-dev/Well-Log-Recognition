@@ -22,10 +22,8 @@ import java.util.HashSet;
 import java.util.ResourceBundle;
 
 public class AnalysisKeywords{
-    private static HashSet<String> keywords;                                            // Hashset of all keywords
     private static HashMap<String, ArrayList<ScanTargetPair>> keyScanAssociations;      // Hashmap of each keyword and the pairs
-
-
+    private static HashSet<String> keywords;
     /**
      * Executes scanning and computer vision upon button press
      */
@@ -34,67 +32,57 @@ public class AnalysisKeywords{
         if(!runChecks())
             return;
 
-        // Get keywords
-        keywords = Controller.getListOfKeywords();
-
         File directory = Controller.getTargetAnalysisDirectory();
+        HashMap<String, String> results = new HashMap<>();
         for (File file : directory.listFiles() ){
             if (!file.isDirectory()) {
                 System.out.println("Analyzing.");
-                analyze(file, Controller.getListOfKeywords());
+                keywords = new HashSet<>();
+                for (String keyword : Controller.getListOfKeywords())
+                    keywords.add(keyword);
+                results = analyze(file);
             }
+            System.out.println("======================");
         }
-    }
-
-    /**
-     * Helper program that analyzes files
-     * @param file
-     */
-    private static void analyze(File file){
-        AnalysisMicrosoftAzure analysisObject = new AnalysisMicrosoftAzure(file.getPath());
-        JSONObject fullScanResults = analysisObject.analyze();
-        JSONArray fullScanContents = (JSONArray) ( ( (JSONObject) fullScanResults.get("recognitionResults")).get("lines") );
-        int width = (int) ( ( (JSONObject) fullScanResults.get("recognitionResults")).get("width") );
-        int height = (int) ( ( (JSONObject) fullScanResults.get("recognitionResults")).get("height") );
-
-        // For each line in the contents
-        for (int i = 0; i < fullScanContents.length(); i++) {
-            JSONObject obj = fullScanContents.getJSONObject(i);
-            // For each keyword submitted
-            for (String keyword : keywords){
-                if (keyword.contains((String) obj.get("text"))){
-                    ScanProperties textScan = new ScanProperties(file, width, height);
-                    textScan.addScan((int[]) obj.get("boundingBox"));
-
-                }
-            }
-        }
+        // TODO: PARSE THE RESULTS HASHMAP
+        // TODO: DETERMINE IF RESULTS ARE VALID
+        // TODO: VALID RESULTS ARE PUT INTO PRIMARY CSV
+        // TODO: INVALID RESULTS ARE PUT INTO SECONDARY CSV
+        // TODO: INVALID RESULTS IMAGE FILE IS PUT FOR REVIEW
     }
 
     /**
      * Helper program for debugging
      * @param completeImageFile
-     * @param keywords
      */
-    public static void analyze(File completeImageFile, HashSet<String> keywords) throws IOException {
-        AnalysisKeywords.keywords = keywords;
+    private static HashMap<String, String> analyze(File completeImageFile) throws IOException {
         // TODO: USE PROPERTIES FILE
-        AnalysisMicrosoftAzure analysisObject = new AnalysisMicrosoftAzure(completeImageFile.getPath(), "https://lsu-frank-tsai.cognitiveservices.azure.com/", "ffcd9ea1d1104c17b794879fa4262228");
+
+        AnalysisMicrosoftAzure analysisObject = new AnalysisMicrosoftAzure(
+                completeImageFile.getPath(),
+                "https://lsu-frank-tsai.cognitiveservices.azure.com/",
+                "ffcd9ea1d1104c17b794879fa4262228"
+        );
         JSONObject fullScanResults = analysisObject.analyze();
         JSONArray results1 = (JSONArray) fullScanResults.get("recognitionResults");
         JSONObject results2 = results1.getJSONObject(0);
         JSONArray fullScanContents = (JSONArray) results2.get("lines");
 
-        //JSONArray fullScanContents = (JSONArray) ( ( ).get("lines") );
-        int completeImageWidth = (int)  ( ( ((JSONArray) fullScanResults.get("recognitionResults")).getJSONObject(0)).get("width") );
-        int completeImageHeight = (int) ( ( ((JSONArray) fullScanResults.get("recognitionResults")).getJSONObject(0)).get("height") );
+        HashMap<String, String> retrievedData = new HashMap<>();
+
+        int completeImageWidth = (int)(
+                (((JSONArray)fullScanResults.get("recognitionResults")).getJSONObject(0)).get("width")
+        );
+        int completeImageHeight = (int)(
+                (((JSONArray)fullScanResults.get("recognitionResults")).getJSONObject(0)).get("height")
+        );
         int[] fullDim = {completeImageWidth, completeImageHeight};
         // For each line in the contents
         for (int i = 0; i < fullScanContents.length(); i++) {
             JSONObject lineJsonObject = fullScanContents.getJSONObject(i);
+            String text = Utils.filter((String) lineJsonObject.get("text"));
             // For each keyword submitted
             for (String keyword : keywords){
-                String text = (String) lineJsonObject.get("text");
                 if (text.contains(keyword)){
                     // Creates a new ScanProperties to store properties of the keyword scan
                     ScanProperties keywordScan = new ScanProperties(completeImageFile, completeImageWidth, completeImageHeight);
@@ -104,100 +92,144 @@ public class AnalysisKeywords{
                         param[j] = arr.getInt(j);
                     }
                     keywordScan.addScan(param);
-                    process(completeImageFile, keywordScan, keyword, fullDim);
+                    String result = process(completeImageFile, keywordScan, keyword, fullDim);
+                    retrievedData.put(keyword, result);
+                    if (result == null){
+                        return null;
+                    }
+                    keywords.remove(keyword); // Remove keywords, duplicate keywords not allowed in document
                 }
             }
         }
+
+        if (keywords.size() > 0) {
+            System.out.println("Keywords still remain!");
+            // Indicates that not all keywords were found in the entire document
+            Controller.submitFileForReview(completeImageFile);
+            return null;
+        }
+        return retrievedData;
     }
 
     /**
-     * Processes information
-     * @return
+     * Processes the file
+     * @return returns corresponding text accoridng to the keyword
      */
-    private static void process(File fullImageFile, ScanProperties keywordScan, String keyword, int[] fullDim) throws IOException {
+    private static String process(File fullImageFile, ScanProperties keywordScan, String keyword, int[] fullDim) throws IOException {
+        System.out.println("Loading file " + fullImageFile.getName());
         if (keyScanAssociations == null){
             keyScanAssociations = new HashMap<>();
             // TODO: LOAD ASSOCIATIONS FROM FILE
         }
-        ArrayList<ScanTargetPair> list = keyScanAssociations.get(keyword);
-        if (list != null){
+        File cropped = null;
+
+        ArrayList<ScanTargetPair> pairsOfPotentialTargets = keyScanAssociations.get(keyword);
+        if (pairsOfPotentialTargets != null){
             // Indicates that there is a stored scan section for that keyword
             // For each of the scan with the same keyword
             ScanTargetPair reference = null;
 
-            for (ScanTargetPair pair : list) { // Scan every pair for that particular keyword
+            for (ScanTargetPair pair : pairsOfPotentialTargets) { // Scan every pair for that particular keyword
                 // Check to see if any lengths are valid
-                double[] compared = keywordScan.compareTo(pair.getKeywordScan());
-                if (compared[0] < 1 || compared[1] < 1 || compared[2] < 1 || compared[3] < 1) {
+                ScanProperties potentialValidScan = pair.getKeywordScan();
+                double[] compared = keywordScan.compareTo(potentialValidScan);
+                if (compared[0] < 1 && compared[1] < 1 && compared[2] < 1 && compared[3] < 1) {
                     reference = pair;
+                    System.out.println("A fitted section was detected.");
+                    System.out.print("Keyword Scan: ");
+                    System.out.println(keywordScan.toString());
+                    System.out.print("Potential Scan: ");
+                    System.out.println(potentialValidScan.toString());
                     break;
                 }
+                System.out.println("A fitted section was not detected.");
+                System.out.print("Keyword Scan: ");
+                System.out.println(keywordScan.toString());
+                System.out.print("Potential Scan: ");
+                System.out.println(potentialValidScan.toString());
             }
             if (reference == null){
                 // Indicates that there has yet to be any reference-target association
                 ScanProperties targetScan = executeKeywordCorrections(fullImageFile, keywordScan, fullDim);
+                if (targetScan == null)
+                    return null;
                 ScanTargetPair pair = new ScanTargetPair(keywordScan, targetScan);
-                list.add(pair);
-                keyScanAssociations.put(keyword, list);
-                // TODO: APPLY CHANGES TO FILE
-            } else{
-                // Indicates that we have a point of reference
-                ScanProperties toBeScanned = reference.getTargetScan();
+                pairsOfPotentialTargets.add(pair);
+                keyScanAssociations.put(keyword, pairsOfPotentialTargets);
                 if (ImageUtils.confirmType(fullImageFile)) {     // Confirm that file is image
-                    String directoryPath = Controller.getTargetAnalysisDirectory().getPath();
-                    String fileName = fullImageFile.getName();
-                    int pos = fileName.lastIndexOf(".");
-                    if (pos > 0) {
-                        fileName = fileName.substring(0, pos);
-                    }
-                    System.out.println("Loading file " + fileName);
-
-                    String saveFolderPath = directoryPath + "/Cropped/" + fileName;
-                    File saveDirectory = new File(saveFolderPath);
-                    saveDirectory.mkdirs();
-                    BufferedImage src = ImageIO.read(fullImageFile);
-
-                    // Get Target from the ScanTargetPair
-                    ScanProperties target = reference.getTargetScan();
-                    Rectangle cropArea = target.getRectangle(fullDim[0], fullDim[1]);
-                    BufferedImage cropped = src.getSubimage(
-                            (int) cropArea.getX(),
-                            (int) cropArea.getY(),
-                            (int) cropArea.getWidth(),
-                            (int) cropArea.getHeight()
+                    cropped = applyCropping(
+                            fullImageFile,
+                            targetScan,
+                            fullDim,
+                            keyword
                     );
-                    ImageIO.write(cropped, "PNG", new File(saveFolderPath + "/" + keyword + ".png"));
-                    System.out.println("Wrote to savefolderpath!");
-
-                    // Loop through each section
-                    /**
-                    int counter = 0;
-                    for (DefaultScan section : Controller.defaultPositions) {
-                        System.out.println("Going through a section!");
-                        Point2D[] points = section.returnCornersImageReference();
-                        Rectangle rect = getRect(points[0], points[1]);
-                        BufferedImage cropped = src.getSubimage((int) rect.getX(), (int) rect.getY(), (int) rect.getWidth(), (int) rect.getHeight());
-                        System.out.println(cropped.getWidth());
-                        System.out.println("Writing to path");
-                        counter++;
-                    }
-                     */
                 }
 
-                // TODO: CROP OUT SECTION AND SEND TO MICROSOFT AZURE
+            } else{
+                // Indicates that we have a point of reference
+                ScanProperties target = reference.getTargetScan();
+                if (ImageUtils.confirmType(fullImageFile)) {     // Confirm that file is image
+                    cropped = applyCropping(fullImageFile,
+                            target,
+                            fullDim,
+                            keyword
+                    );
+                }
+
             }
         } else{
             // Indicates that is yet a scan stored for the particular keyword
             // Indicates that there has yet to be any reference-target association
             ScanProperties targetScan = executeKeywordCorrections(fullImageFile, keywordScan, fullDim);
+            if (targetScan == null)
+                return null;
             ScanTargetPair pair = new ScanTargetPair(keywordScan, targetScan);
-            list = new ArrayList<>();
-            list.add(pair);
-            keyScanAssociations.put(keyword, list);
+            pairsOfPotentialTargets = new ArrayList<>();
+            pairsOfPotentialTargets.add(pair);
+            keyScanAssociations.put(keyword, pairsOfPotentialTargets);
+            if (ImageUtils.confirmType(fullImageFile)) {     // Confirm that file is image
+                cropped = applyCropping(fullImageFile, targetScan, fullDim, keyword);
+            }
         }
+        if (cropped != null){
+            // TODO: SEND FILE TO MICROSOFT AZURE FOR ANALYSIS
+            // TODO: RETURN RESULT AS DATA
+        }
+        return null;
+    }
+
+    private static File applyCropping(File fullImageFile, ScanProperties target, int[] fullDim, String keyword){
+        String cachePath = Controller.getCacheFolder().getPath();
+        String fileName = fullImageFile.getName();
+        int pos = fileName.lastIndexOf(".");
+        if (pos > 0) {
+            fileName = fileName.substring(0, pos);
+        }
+        try {
+            BufferedImage src = ImageIO.read(fullImageFile);
+            // Get Target from the ScanTargetPair
+            Rectangle cropArea = target.getRectangle(fullDim[0], fullDim[1]);
+            BufferedImage cropped = src.getSubimage(
+                    (int) cropArea.getX(),
+                    (int) cropArea.getY(),
+                    (int) cropArea.getWidth(),
+                    (int) cropArea.getHeight()
+            );
+            File result = new File(cachePath + "/" + keyword + ".png");
+            ImageIO.write(cropped,
+                    "PNG",
+                    result
+            );
+            System.out.println("Wrote to cache!");
+            return result;
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public static ScanProperties executeKeywordCorrections(File fullImage, ScanProperties keywordScan, int[] fullDim){
+        System.out.printf("Executing Corrections on file %s\n", fullImage.getName());
         Stage applyCorrection = new Stage();
         ScanProperties result = null;
         try {
@@ -219,8 +251,10 @@ public class AnalysisKeywords{
             controller.initData(fullImage, keywordScan, fullDim);
             applyCorrection.initStyle(StageStyle.UNDECORATED);
             applyCorrection.showAndWait();
-            result = controller.getLastScan();
-            System.out.println(result);
+            if (!controller.submittedForReview())
+                result = controller.getLastScan();
+            else
+                return null;
         } catch(IOException e){
             e.printStackTrace();
             System.exit(0);
@@ -236,6 +270,7 @@ public class AnalysisKeywords{
      * @return
      */
     private static boolean runChecks(){
+        Controller.makeCacheFolder();
         return true;
     }
 }

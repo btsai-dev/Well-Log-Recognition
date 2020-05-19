@@ -2,7 +2,11 @@ package sample;
 
 import javafx.stage.Stage;
 
-import java.io.File;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Stack;
@@ -17,11 +21,36 @@ public class Controller {
     private static HashMap<String, String> azureData = new HashMap<>(); // Microsoft Azure authentication data
     private static HashSet<String> listOfKeywords = new HashSet<>();    // List of keywords to check
     private static File targetAnalysisDirectory;                    // Path to the directory for analysis
+    private static File reviewSubmissionDirectory;
+    private static File cacheFolder;
+    public static File getReviewSubmissionDirectory() {
+        return reviewSubmissionDirectory;
+    }
 
+    public static void setReviewSubmissionDirectory(File reviewSubmissionDirectory) {
+        Controller.reviewSubmissionDirectory = reviewSubmissionDirectory;
+    }
 
+    public static void makeCacheFolder(){
+        if (reviewSubmissionDirectory != null){
+            Utils.purgeDirectory(reviewSubmissionDirectory);
+            String saveFolderPath = reviewSubmissionDirectory.toPath() + "/Cache/";
+            cacheFolder = new File(saveFolderPath);
+            cacheFolder.mkdirs();
+            Utils.purgeDirectory(cacheFolder);
+        }
+    }
 
-    public static Stack<DefaultScan> defaultPositions;
+    public static File getCacheFolder(){
+        return cacheFolder;
+    }
 
+    public static void destroyCacheFolder(){
+        if (cacheFolder != null){
+            Utils.purgeDirectory(cacheFolder);
+            cacheFolder.delete();
+        }
+    }
 
     /**
      * Add keys and endpoint to the hashmap
@@ -77,5 +106,21 @@ public class Controller {
 
     public static void setTargetAnalysisDirectory(File targetAnalysisDirectory) {
         Controller.targetAnalysisDirectory = targetAnalysisDirectory;
+    }
+
+    public static void submitFileForReview(File source){
+        System.out.printf("%s submitted for review.", source.getName());
+        String destinationPath = reviewSubmissionDirectory.getPath()
+                + "\\"
+                + source.getName();
+        Path destination = Paths.get(destinationPath);
+        Path originalPath = source.toPath();
+        try{
+            Files.copy(originalPath, destination, StandardCopyOption.REPLACE_EXISTING);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch(Exception e){
+            e.printStackTrace();
+        }
     }
 }

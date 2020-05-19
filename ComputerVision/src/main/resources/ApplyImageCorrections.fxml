@@ -23,16 +23,21 @@
             </Pane>
          </content>
       </ScrollPane>
-      <VBox alignment="TOP_CENTER" layoutX="1117.0" layoutY="73.0" spacing="30.0" AnchorPane.rightAnchor="54.0" AnchorPane.topAnchor="35.0">
+      <VBox alignment="TOP_CENTER" layoutX="1117.0" layoutY="73.0" spacing="30.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="35.0">
          <children>
-            <Button fx:id="SaveButton" disable="true" mnemonicParsing="false" onAction="#SaveButtonPressed" text="SAVE" textAlignment="CENTER">
+            <Button fx:id="SaveButton" disable="true" mnemonicParsing="false" onAction="#SaveButtonPressed" style="-fx-background-color: #9fffa5;" text="SAVE" textAlignment="CENTER" wrapText="true">
                <font>
-                  <Font size="24.0" />
+                  <Font name="System Bold" size="24.0" />
                </font>
             </Button>
-            <Button fx:id="ResetButton" disable="true" layoutX="16.0" layoutY="10.0" mnemonicParsing="false" onAction="#ResetButtonPressed" text="RESET">
+            <Button fx:id="ResetButton" disable="true" layoutX="16.0" layoutY="10.0" mnemonicParsing="false" onAction="#ResetButtonPressed" style="-fx-background-color: #fdff00;" text="RESET" wrapText="true">
                <font>
-                  <Font size="24.0" />
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Button>
+            <Button layoutX="10.0" layoutY="91.0" mnemonicParsing="false" onAction="#SubmitForReview" prefWidth="150.0" style="-fx-background-color: ff0051;" text="SUBMIT FOR REVIEW" textAlignment="CENTER" wrapText="true">
+               <font>
+                  <Font name="System Bold" size="24.0" />
                </font>
             </Button>
          </children>

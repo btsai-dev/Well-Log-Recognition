@@ -27,6 +27,9 @@ public class MainMenu implements Initializable {
     @FXML
     private VBox keywordsDisplayVBox;
 
+    @FXML
+    private TextField reviewDirectoryField;
+
     /**
      * Executes file analysis through keywords
      * @param actionEvent
@@ -50,7 +53,7 @@ public class MainMenu implements Initializable {
      * @param actionEvent
      */
     public void submitKeyword(ActionEvent actionEvent){
-        String keywordSubmission = keywordAdditionField.getText();
+        String keywordSubmission = Utils.filter(keywordAdditionField.getText());
         // Make sure something valid exists in the submission field and has not been submitted
         if (keywordSubmission != null
                 && keywordSubmission.length() > 0
@@ -81,8 +84,34 @@ public class MainMenu implements Initializable {
         // Gets chosen file
         File chosen = dc.showDialog(Controller.mainStage);
         if(chosen != null) {
+            chosen.mkdirs();
             Controller.setTargetAnalysisDirectory(chosen); // Alters global variable
             targetAnalysisDirectoryField.setText(chosen.getPath()); // Sets text in textfield
+        }
+    }
+
+    /**
+     * Selects the directory upon button press
+     * @param actionEvent
+     */
+    public void chooseDirectoryForReview(ActionEvent actionEvent){
+        // Sets the directory for analysis
+        File userDirectory = new File(reviewDirectoryField.getText());
+        if(!userDirectory.canRead()) {
+            userDirectory = new File("c:/");
+        }
+
+        // Opens the directory chooser
+        DirectoryChooser dc = new DirectoryChooser();
+        dc.setInitialDirectory(userDirectory);
+        dc.setTitle("Opening the location..");
+
+        // Gets chosen file
+        File chosen = dc.showDialog(Controller.mainStage);
+        if(chosen != null) {
+            chosen.mkdirs();
+            Controller.setReviewSubmissionDirectory(chosen); // Alters global variable
+            reviewDirectoryField.setText(chosen.getPath()); // Sets text in textfield
         }
     }
 
@@ -100,6 +129,8 @@ public class MainMenu implements Initializable {
         File defaultDirectory = Utils.getUserDirectory();
         if (defaultDirectory != null){
             targetAnalysisDirectoryField.setText(defaultDirectory.getPath());
+            reviewDirectoryField.setText(defaultDirectory.getPath());
+
         }
     }
 
