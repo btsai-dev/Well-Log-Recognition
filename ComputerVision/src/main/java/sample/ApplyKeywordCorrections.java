@@ -14,7 +14,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import sample.Classes.ScanProperties;
+import sample.Classes.Scan;
 import sample.Utility.Utils;
 
 import java.io.File;
@@ -40,7 +40,7 @@ public class ApplyKeywordCorrections {
     private File fullImageFile;
     private boolean submittedForReview;
 
-    public void initData(File imgFile, ScanProperties keywordScan, int[] fullDim){
+    public void initData(File imgFile, Scan keywordScan, int[] fullDim){
         fullImageFile = imgFile;
         submittedForReview = false;
         DisplayedImageView.setPreserveRatio(true);
@@ -115,9 +115,9 @@ public class ApplyKeywordCorrections {
         return submittedForReview;
     }
 
-    public ScanProperties getLastScan() throws IOException{
+    public Scan getLastScan() throws IOException{
         if (rectangle != null) {
-            ScanProperties target = new ScanProperties(fullImageFile);
+            Scan target = new Scan(fullImageFile);
             target.addScan(rectangle);
             return target;
         } else

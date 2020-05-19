@@ -7,7 +7,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class ScanProperties {
+public class Scan {
     private File referencePosImageFile;
     private int imageWidth;
     private int imageHeight;
@@ -19,7 +19,7 @@ public class ScanProperties {
     private double scanRelativeX2;
     private double scanRelativeY2;
 
-    public ScanProperties(File referencePosImageFile) throws IOException {
+    public Scan(File referencePosImageFile) throws IOException {
         this.referencePosImageFile = referencePosImageFile;
         try {
             BufferedImage bimg = ImageIO.read(referencePosImageFile);
@@ -31,12 +31,12 @@ public class ScanProperties {
         }
     }
 
-    public ScanProperties(File referencePosImageFile, int width, int height){
+    public Scan(File referencePosImageFile, int width, int height){
         this.imageWidth = width;
         this.imageHeight = height;
     }
 
-    public ScanProperties(int width, int height){
+    public Scan(int width, int height){
         this.imageWidth = width;
         this.imageHeight = height;
     }
@@ -80,7 +80,7 @@ public class ScanProperties {
      * @param scan
      * @return
      */
-    public double[] compareTo(ScanProperties scan){
+    public double[] compareTo(Scan scan){
         double[] arr = { 100 * Math.abs(scan.scanRelativeX1 - this.scanRelativeX1),
                 100 * Math.abs(scan.scanRelativeY1 - this.scanRelativeY1),
                 100 * Math.abs(scan.scanRelativeX2 - this.scanRelativeX2),

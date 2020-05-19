@@ -7,8 +7,8 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import sample.Classes.ScanProperties;
-import sample.Classes.ScanTargetPair;
+import sample.Classes.Scan;
+import sample.Classes.ScanPair;
 import sample.Utility.ImageUtils;
 import sample.Utility.Utils;
 
@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 public class AnalysisKeywords{
-    private static HashMap<String, ArrayList<ScanTargetPair>> keyScanAssociations;      // Hashmap of each keyword and the pairs
+    private static HashMap<String, ArrayList<ScanPair>> keyScanAssociations;      // Hashmap of each keyword and the pairs
     private static HashSet<String> keywords;
     /**
      * Executes scanning and computer vision upon button press
@@ -83,8 +83,8 @@ public class AnalysisKeywords{
             // For each keyword submitted
             for (String keyword : keywords){
                 if (text.contains(keyword)){
-                    // Creates a new ScanProperties to store properties of the keyword scan
-                    ScanProperties keywordScan = new ScanProperties(completeImageFile, completeImageWidth, completeImageHeight);
+                    // Creates a new Scan to store properties of the keyword scan
+                    Scan keywordScan = new Scan(completeImageFile, completeImageWidth, completeImageHeight);
                     JSONArray arr = (JSONArray) lineJsonObject.get("boundingBox");
                     int[] param = new int[8];
                     for (int j = 0; j < 8; j++){
@@ -114,7 +114,7 @@ public class AnalysisKeywords{
      * Processes the file
      * @return returns corresponding text accoridng to the keyword
      */
-    private static String process(File fullImageFile, ScanProperties keywordScan, String keyword, int[] fullDim) throws IOException {
+    private static String process(File fullImageFile, Scan keywordScan, String keyword, int[] fullDim) throws IOException {
         System.out.println("Loading file " + fullImageFile.getName());
         if (keyScanAssociations == null){
             keyScanAssociations = new HashMap<>();
@@ -122,15 +122,15 @@ public class AnalysisKeywords{
         }
         File cropped = null;
 
-        ArrayList<ScanTargetPair> pairsOfPotentialTargets = keyScanAssociations.get(keyword);
+        ArrayList<ScanPair> pairsOfPotentialTargets = keyScanAssociations.get(keyword);
         if (pairsOfPotentialTargets != null){
             // Indicates that there is a stored scan section for that keyword
             // For each of the scan with the same keyword
-            ScanTargetPair reference = null;
+            ScanPair reference = null;
 
-            for (ScanTargetPair pair : pairsOfPotentialTargets) { // Scan every pair for that particular keyword
+            for (ScanPair pair : pairsOfPotentialTargets) { // Scan every pair for that particular keyword
                 // Check to see if any lengths are valid
-                ScanProperties potentialValidScan = pair.getKeywordScan();
+                Scan potentialValidScan = pair.getKeywordScan();
                 double[] compared = keywordScan.compareTo(potentialValidScan);
                 if (compared[0] < 1 && compared[1] < 1 && compared[2] < 1 && compared[3] < 1) {
                     reference = pair;
@@ -149,10 +149,10 @@ public class AnalysisKeywords{
             }
             if (reference == null){
                 // Indicates that there has yet to be any reference-target association
-                ScanProperties targetScan = executeKeywordCorrections(fullImageFile, keywordScan, fullDim);
+                Scan targetScan = executeKeywordCorrections(fullImageFile, keywordScan, fullDim);
                 if (targetScan == null)
                     return null;
-                ScanTargetPair pair = new ScanTargetPair(keywordScan, targetScan);
+                ScanPair pair = new ScanPair(keywordScan, targetScan);
                 pairsOfPotentialTargets.add(pair);
                 keyScanAssociations.put(keyword, pairsOfPotentialTargets);
                 if (ImageUtils.confirmType(fullImageFile)) {     // Confirm that file is image
@@ -166,7 +166,7 @@ public class AnalysisKeywords{
 
             } else{
                 // Indicates that we have a point of reference
-                ScanProperties target = reference.getTargetScan();
+                Scan target = reference.getTargetScan();
                 if (ImageUtils.confirmType(fullImageFile)) {     // Confirm that file is image
                     cropped = applyCropping(fullImageFile,
                             target,
@@ -179,10 +179,10 @@ public class AnalysisKeywords{
         } else{
             // Indicates that is yet a scan stored for the particular keyword
             // Indicates that there has yet to be any reference-target association
-            ScanProperties targetScan = executeKeywordCorrections(fullImageFile, keywordScan, fullDim);
+            Scan targetScan = executeKeywordCorrections(fullImageFile, keywordScan, fullDim);
             if (targetScan == null)
                 return null;
-            ScanTargetPair pair = new ScanTargetPair(keywordScan, targetScan);
+            ScanPair pair = new ScanPair(keywordScan, targetScan);
             pairsOfPotentialTargets = new ArrayList<>();
             pairsOfPotentialTargets.add(pair);
             keyScanAssociations.put(keyword, pairsOfPotentialTargets);
@@ -197,7 +197,7 @@ public class AnalysisKeywords{
         return null;
     }
 
-    private static File applyCropping(File fullImageFile, ScanProperties target, int[] fullDim, String keyword){
+    private static File applyCropping(File fullImageFile, Scan target, int[] fullDim, String keyword){
         String cachePath = Controller.getCacheFolder().getPath();
         String fileName = fullImageFile.getName();
         int pos = fileName.lastIndexOf(".");
@@ -206,7 +206,7 @@ public class AnalysisKeywords{
         }
         try {
             BufferedImage src = ImageIO.read(fullImageFile);
-            // Get Target from the ScanTargetPair
+            // Get Target from the ScanPair
             Rectangle cropArea = target.getRectangle(fullDim[0], fullDim[1]);
             BufferedImage cropped = src.getSubimage(
                     (int) cropArea.getX(),
@@ -227,10 +227,10 @@ public class AnalysisKeywords{
         return null;
     }
 
-    public static ScanProperties executeKeywordCorrections(File fullImage, ScanProperties keywordScan, int[] fullDim){
+    public static Scan executeKeywordCorrections(File fullImage, Scan keywordScan, int[] fullDim){
         System.out.printf("Executing Corrections on file %s\n", fullImage.getName());
         Stage applyCorrection = new Stage();
-        ScanProperties result = null;
+        Scan result = null;
         try {
             FXMLLoader loader = new FXMLLoader(
                     AnalysisKeywords.class.getResource(
