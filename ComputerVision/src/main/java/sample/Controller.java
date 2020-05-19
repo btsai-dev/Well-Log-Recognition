@@ -1,6 +1,7 @@
 package sample;
 
 import javafx.stage.Stage;
+import sample.Utility.Utils;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -9,7 +10,6 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Stack;
 
 public class Controller {
     // Public fields

@@ -1,4 +1,6 @@
-package sample;
+package sample.Classes;
+
+import sample.Classes.ScanProperties;
 
 public class ScanTargetPair {
     private ScanProperties keywordScan;

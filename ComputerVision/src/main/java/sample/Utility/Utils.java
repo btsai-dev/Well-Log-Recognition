@@ -1,4 +1,4 @@
-package sample;
+package sample.Utility;
 
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Rectangle;

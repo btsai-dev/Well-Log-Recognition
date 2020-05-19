@@ -1,25 +1,24 @@
 package sample;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import sample.Classes.ScanProperties;
+import sample.Classes.ScanTargetPair;
+import sample.Utility.ImageUtils;
+import sample.Utility.Utils;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.ResourceBundle;
 
 public class AnalysisKeywords{
     private static HashMap<String, ArrayList<ScanTargetPair>> keyScanAssociations;      // Hashmap of each keyword and the pairs
