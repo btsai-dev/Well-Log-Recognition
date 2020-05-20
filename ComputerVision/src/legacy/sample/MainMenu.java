@@ -199,7 +199,6 @@ public class MainMenu implements Initializable {
         public void write(int i) throws IOException {
             Platform.runLater(()->output.appendText(String.valueOf((char) i)));
         }
-
     }
 
 }

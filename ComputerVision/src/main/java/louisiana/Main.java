@@ -5,11 +5,18 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
 
 public class Main extends Application {
     @Override
     public void start(Stage stage){
+        File targetDir = new File("C:\\Users\\godon\\__LMAOOO\\Well Logs");
+        File reviewDir = new File("C:\\Users\\godon\\__LMAOOO\\Well Logs Review");
+    }
+
+
+    public void loadMainMenu(){
         FXMLLoader loader = new FXMLLoader(
                 Main.class.getResource(
                         "/MainMenu.fxml"
@@ -29,6 +36,7 @@ public class Main extends Application {
         }
         window.showAndWait();
     }
+
     public static void main(String[] args){
         Application.launch(args);
     }
