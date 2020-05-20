@@ -1,9 +1,6 @@
 package sample;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
 import java.net.URI;
 import java.util.HashMap;
 
@@ -21,7 +18,6 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
-import javax.imageio.ImageIO;
 
 public class AnalysisMicrosoftAzure {
     private String imagePath;
