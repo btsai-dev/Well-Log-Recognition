@@ -2,11 +2,15 @@ package sample;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.Stage;
 import sample.Utility.Utils;
 
 import java.io.*;
@@ -96,7 +100,7 @@ public class MainMenu implements Initializable {
         // Opens the directory chooser
         DirectoryChooser dc = new DirectoryChooser();
         dc.setInitialDirectory(userDirectory);
-        dc.setTitle("Opening the location..");
+        dc.setTitle("Select Directory to Scan");
 
         // Gets chosen file
         File chosen = dc.showDialog(Controller.mainStage);
@@ -121,7 +125,7 @@ public class MainMenu implements Initializable {
         // Opens the directory chooser
         DirectoryChooser dc = new DirectoryChooser();
         dc.setInitialDirectory(userDirectory);
-        dc.setTitle("Opening the location..");
+        dc.setTitle("Select Directory to Store Images for Review");
 
         // Gets chosen file
         File chosen = dc.showDialog(Controller.mainStage);
@@ -129,6 +133,34 @@ public class MainMenu implements Initializable {
             chosen.mkdirs();
             Controller.setReviewSubmissionDirectory(chosen); // Alters global variable
             reviewDirectoryField.setText(chosen.getPath()); // Sets text in textfield
+        }
+    }
+
+    public void showInstructions(ActionEvent actionEvent){
+        Stage instructionStage = new Stage();
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource(
+                            "/Instructions.fxml"
+                    )
+            );
+            instructionStage.setTitle("Instructions");
+            instructionStage.setScene(
+                    new Scene(
+                            loader.load(),
+                            800,
+                            600
+                    )
+            );
+            /**
+             Parent root = FXMLLoader.load(getClass().getResource("/MainMenu.fxml"));
+             menuStage.setTitle("Main Menu");
+             menuStage.setScene(new Scene(root));
+             **/
+            instructionStage.setMaximized(false);
+            instructionStage.showAndWait();
+        } catch(Exception e){
+            e.printStackTrace();
         }
     }
 
