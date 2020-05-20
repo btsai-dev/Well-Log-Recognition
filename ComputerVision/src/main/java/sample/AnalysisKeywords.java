@@ -13,6 +13,7 @@ import sample.Utility.ImageUtils;
 import sample.Utility.Utils;
 
 import javax.imageio.ImageIO;
+import javax.naming.ldap.Control;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -40,14 +41,17 @@ public class AnalysisKeywords{
                 for (String keyword : Controller.getListOfKeywords())
                     keywords.add(keyword);
                 results = analyze(file);
+                if (results == null){
+                    Controller.submitFileForReview(file);
+                } else{
+                    // TODO: PARSE THE RESULTS HASHMAP
+                    // TODO: DETERMINE IF RESULTS ARE VALID
+                    // TODO: VALID RESULTS ARE PUT INTO PRIMARY CSV
+                    // TODO: INVALID RESULTS ARE PUT INTO SECONDARY CSV
+                    // TODO: INVALID RESULTS IMAGE FILE IS PUT FOR REVIEW
+                }
             }
-            System.out.println("======================");
         }
-        // TODO: PARSE THE RESULTS HASHMAP
-        // TODO: DETERMINE IF RESULTS ARE VALID
-        // TODO: VALID RESULTS ARE PUT INTO PRIMARY CSV
-        // TODO: INVALID RESULTS ARE PUT INTO SECONDARY CSV
-        // TODO: INVALID RESULTS IMAGE FILE IS PUT FOR REVIEW
     }
 
     /**
@@ -63,51 +67,55 @@ public class AnalysisKeywords{
                 "ffcd9ea1d1104c17b794879fa4262228"
         );
         JSONObject fullScanResults = analysisObject.analyze();
-        JSONArray results1 = (JSONArray) fullScanResults.get("recognitionResults");
-        JSONObject results2 = results1.getJSONObject(0);
-        JSONArray fullScanContents = (JSONArray) results2.get("lines");
+        if (fullScanResults != null) {
+            JSONArray results1 = (JSONArray) fullScanResults.get("recognitionResults");
+            JSONObject results2 = results1.getJSONObject(0);
+            JSONArray fullScanContents = (JSONArray) results2.get("lines");
 
-        HashMap<String, String> retrievedData = new HashMap<>();
+            HashMap<String, String> retrievedData = new HashMap<>();
 
-        int completeImageWidth = (int)(
-                (((JSONArray)fullScanResults.get("recognitionResults")).getJSONObject(0)).get("width")
-        );
-        int completeImageHeight = (int)(
-                (((JSONArray)fullScanResults.get("recognitionResults")).getJSONObject(0)).get("height")
-        );
-        int[] fullDim = {completeImageWidth, completeImageHeight};
-        // For each line in the contents
-        for (int i = 0; i < fullScanContents.length(); i++) {
-            JSONObject lineJsonObject = fullScanContents.getJSONObject(i);
-            String text = Utils.filter((String) lineJsonObject.get("text"));
-            // For each keyword submitted
-            for (String keyword : keywords){
-                if (text.contains(keyword)){
-                    // Creates a new Scan to store properties of the keyword scan
-                    Scan keywordScan = new Scan(completeImageFile, completeImageWidth, completeImageHeight);
-                    JSONArray arr = (JSONArray) lineJsonObject.get("boundingBox");
-                    int[] param = new int[8];
-                    for (int j = 0; j < 8; j++){
-                        param[j] = arr.getInt(j);
+            int completeImageWidth = (int) (
+                    (((JSONArray) fullScanResults.get("recognitionResults")).getJSONObject(0)).get("width")
+            );
+            int completeImageHeight = (int) (
+                    (((JSONArray) fullScanResults.get("recognitionResults")).getJSONObject(0)).get("height")
+            );
+            int[] fullDim = {completeImageWidth, completeImageHeight};      // Actual image dimensions in an array
+
+
+            for (int i = 0; i < fullScanContents.length(); i++) {       // For each line in the contents
+                JSONObject lineJsonObject = fullScanContents.getJSONObject(i);
+                String text = Utils.filter((String) lineJsonObject.get("text"));
+
+                for (String keyword : keywords) {       // For each keyword submitted
+                    if (text.contains(keyword)) {
+
+                        // Creates a new Scan to store properties of the keyword scan
+                        Scan keywordScan = new Scan(completeImageFile, completeImageWidth, completeImageHeight);
+                        JSONArray arr = (JSONArray) lineJsonObject.get("boundingBox");
+                        int[] param = new int[8];
+                        for (int j = 0; j < 8; j++) {
+                            param[j] = arr.getInt(j);
+                        }
+                        keywordScan.addScan(param);
+                        String result = process(completeImageFile, keywordScan, keyword, fullDim);
+                        retrievedData.put(keyword, result);
+                        if (result == null) {
+                            return null;
+                        }
+                        keywords.remove(keyword); // Remove keywords, duplicate keywords not allowed in document
                     }
-                    keywordScan.addScan(param);
-                    String result = process(completeImageFile, keywordScan, keyword, fullDim);
-                    retrievedData.put(keyword, result);
-                    if (result == null){
-                        return null;
-                    }
-                    keywords.remove(keyword); // Remove keywords, duplicate keywords not allowed in document
                 }
             }
-        }
 
-        if (keywords.size() > 0) {
-            System.out.println("Keywords still remain!");
-            // Indicates that not all keywords were found in the entire document
-            Controller.submitFileForReview(completeImageFile);
-            return null;
+            if (keywords.size() > 0) {
+                System.out.println("Keywords still remain!");
+                // Indicates that not all keywords were found in the entire document
+                return null;
+            }
+            return retrievedData;
         }
-        return retrievedData;
+        return null;
     }
 
     /**
