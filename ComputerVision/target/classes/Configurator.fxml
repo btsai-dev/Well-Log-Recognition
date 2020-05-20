@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
+
+
+<BorderPane prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Configurator">
+    <center>
+        <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+            <children>
+                <SplitPane dividerPositions="0.25, 0.5, 0.75" orientation="VERTICAL" prefHeight="400.0" prefWidth="360.0">
+                    <items>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                            <children>
+                                <GridPane layoutY="1.0" prefHeight="98.0" prefWidth="350.0">
+                                    <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="85.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="265.0" />
+                                    </columnConstraints>
+                                    <rowConstraints>
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    </rowConstraints>
+                                    <children>
+                                        <PasswordField fx:id="azureSubscriptionKey" GridPane.columnIndex="1" />
+                                        <TextField fx:id="azureEndpoint" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                        <Pane prefHeight="200.0" prefWidth="200.0">
+                                            <children>
+                                                <TextFlow layoutX="5.0" layoutY="7.0" prefHeight="36.0" prefWidth="76.0" textAlignment="CENTER">
+                                                    <children>
+                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Subscription Key" wrappingWidth="69.0703125" />
+                                                    </children>
+                                                </TextFlow>
+                                            </children>
+                                        </Pane>
+                                        <Pane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+                                            <children>
+                                                <TextFlow layoutX="5.0" layoutY="15.0" prefHeight="19.0" prefWidth="76.0" textAlignment="CENTER">
+                                                    <children>
+                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Endpoint" wrappingWidth="62.93359375" />
+                                                    </children>
+                                                </TextFlow>
+                                            </children>
+                                        </Pane>
+                                    </children>
+                                </GridPane>
+                            </children></AnchorPane>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="50.0" prefWidth="358.0" />
+                        <AnchorPane layoutX="10.0" layoutY="10.0" minHeight="0.0" minWidth="0.0" prefHeight="0.0" prefWidth="358.0" />
+                        <AnchorPane layoutX="10.0" layoutY="10.0" minHeight="0.0" minWidth="0.0" prefHeight="50.0" prefWidth="358.0" />
+                    </items>
+                </SplitPane>
+            </children></VBox>
+    </center>
+    <left>
+        <VBox prefHeight="400.0" prefWidth="140.0" BorderPane.alignment="CENTER">
+            <children>
+                <Pane prefHeight="100.0" prefWidth="140.0">
+                    <children>
+                        <TextFlow layoutY="38.0" prefHeight="24.0" prefWidth="140.0" textAlignment="CENTER">
+                            <children>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Microsoft Azure" textAlignment="CENTER" wrappingWidth="112.0859375">
+                                    <font>
+                                        <Font size="16.0" />
+                                    </font>
+                                </Text>
+                            </children>
+                            <opaqueInsets>
+                                <Insets />
+                            </opaqueInsets>
+                        </TextFlow>
+                    </children>
+                </Pane>
+                <Pane layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="140.0">
+                    <children>
+                        <TextFlow layoutY="38.0" prefHeight="24.0" prefWidth="140.0" textAlignment="CENTER">
+                            <children>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Google Cloud" textAlignment="CENTER" wrappingWidth="112.0859375">
+                                    <font>
+                                        <Font size="16.0" />
+                                    </font>
+                                </Text>
+                            </children>
+                            <opaqueInsets>
+                                <Insets />
+                            </opaqueInsets>
+                        </TextFlow>
+                    </children>
+                </Pane>
+                <Pane layoutX="10.0" layoutY="110.0" prefHeight="100.0" prefWidth="140.0">
+                    <children>
+                        <TextFlow layoutY="38.0" prefHeight="24.0" prefWidth="140.0" textAlignment="CENTER">
+                            <children>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Amazon Web Services" textAlignment="CENTER" wrappingWidth="112">
+                                    <font>
+                                        <Font size="16.0" />
+                                    </font>
+                                </Text>
+                            </children>
+                            <opaqueInsets>
+                                <Insets />
+                            </opaqueInsets>
+                        </TextFlow>
+                    </children>
+                </Pane>
+            </children>
+        </VBox>
+    </left>
+    <right>
+        <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+            <children>
+                <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="100.0" prefWidth="100.0">
+                    <items>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                            <children>
+                                <Button layoutX="27.0" layoutY="11.0" mnemonicParsing="false" onAction="#saveAzureKey" text="SAVE" />
+                            </children>
+                        </AnchorPane>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="0.0" prefWidth="98.0">
+                            <children>
+                                <Button layoutX="27.0" layoutY="11.0" mnemonicParsing="false" onAction="#saveAzureEndpoint" text="SAVE" />
+                            </children>
+                        </AnchorPane>
+                    </items>
+                </SplitPane>
+                <SplitPane dividerPositions="0.5" layoutX="10.0" layoutY="10.0" orientation="VERTICAL" prefHeight="100.0" prefWidth="100.0">
+                    <items>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" />
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="0.0" prefWidth="98.0" />
+                    </items>
+                </SplitPane>
+                <SplitPane dividerPositions="0.5" layoutX="10.0" layoutY="110.0" orientation="VERTICAL" prefHeight="100.0" prefWidth="100.0">
+                    <items>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" />
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="0.0" prefWidth="98.0" />
+                    </items>
+                </SplitPane>
+                <Pane prefHeight="100.0" prefWidth="100.0">
+                    <children>
+                        <Button fx:id="buttonClose" layoutX="13.0" layoutY="38.0" mnemonicParsing="false" onAction="#exitConfig" text="CONTINUE" textAlignment="CENTER" />
+                    </children>
+                </Pane>
+            </children></VBox>
+    </right>
+</BorderPane>

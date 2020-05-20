@@ -7,13 +7,10 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-import javax.swing.*;
 import java.io.*;
 import java.util.Properties;
 
-public class ConfigurationController {
-    private static String configPath;
-
+public class Configurator {
     @FXML
     private Button buttonClose;
 
@@ -23,47 +20,46 @@ public class ConfigurationController {
     @FXML
     private TextField azureEndpoint;
 
-    public static void setConfigPath(String path){
-        configPath = path;
-    }
-
     public void exitConfig(ActionEvent actionEvent){
         Stage stage = (Stage) buttonClose.getScene().getWindow();
         stage.close();
     }
 
-    public void saveKey(ActionEvent actionEvent) {
-        String key = azureSubscriptionKey.getText();
+    public void saveAzureKey(ActionEvent actionEvent) {
+        String key = azureSubscriptionKey.getText(); // TODO: CONVERT THE KEY TO AN ENCRYPTED VALUE BEFORE SAVING IT
+
         try{
             Properties prop = new Properties();
 
-            InputStream input = new FileInputStream(configPath);
+            InputStream input = new FileInputStream(Controller.configPath);
             prop.load(input);
             input.close();
 
-            OutputStream output = new FileOutputStream(configPath);
+            OutputStream output = new FileOutputStream(Controller.configPath);
             prop.setProperty("db.azureSubscriptionKey", key);
             prop.store(output, null);
             output.close();
+            Controller.setAzureData(key, null);
 
         } catch (IOException io) {
             io.printStackTrace();
         }
     }
 
-    public void saveEndpoint(ActionEvent actionEvent) {
+    public void saveAzureEndpoint(ActionEvent actionEvent) {
         String endpoint = azureEndpoint.getText();
         try{
             Properties prop = new Properties();
 
-            InputStream input = new FileInputStream(configPath);
+            InputStream input = new FileInputStream(Controller.configPath);
             prop.load(input);
             input.close();
 
-            OutputStream output = new FileOutputStream(configPath);
+            OutputStream output = new FileOutputStream(Controller.configPath);
             prop.setProperty("db.azureEndpoint", endpoint);
             prop.store(output, null);
             output.close();
+            Controller.setAzureData(null, endpoint);
 
         } catch (IOException io) {
             io.printStackTrace();
