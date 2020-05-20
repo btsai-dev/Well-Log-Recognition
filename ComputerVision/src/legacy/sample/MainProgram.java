@@ -1,11 +1,11 @@
-package sample;
+package louisiana;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import sample.Utility.ImageUtils;
+import louisiana.Utility.ImageUtils;
 
 import java.io.*;
 
@@ -27,7 +27,7 @@ public class Main extends Application {
         Stage menuStage = new Stage();
         FXMLLoader loader = new FXMLLoader(
                 getClass().getResource(
-                        "/MainMenu.fxml"
+                        "/src/legacy/MainMenu.fxml"
                 )
         );
         menuStage.setTitle("Main Menu");
@@ -55,7 +55,7 @@ public class Main extends Application {
     public void LaunchConfiguration() throws IOException {
         Stage configWindow = new Stage();
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/Configurator.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/src/legacy/Configurator.fxml"));
             configWindow.setTitle("Configuration");
             configWindow.setScene(new Scene(root, 600, 400));
             configWindow.setResizable(false);

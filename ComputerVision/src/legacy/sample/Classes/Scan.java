@@ -1,4 +1,4 @@
-package sample.Classes;
+package louisiana.Classes;
 
 import javafx.scene.shape.Rectangle;
 

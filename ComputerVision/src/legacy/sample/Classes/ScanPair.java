@@ -1,4 +1,4 @@
-package sample.Classes;
+package louisiana.Classes;
 
 public class ScanPair {
     private Scan keywordScan;

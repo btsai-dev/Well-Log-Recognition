@@ -1,4 +1,4 @@
-package sample;
+package louisiana;
 
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -14,8 +14,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import sample.Classes.Scan;
-import sample.Utility.Utils;
+import louisiana.Classes.Scan;
+import louisiana.Utility.Utils;
 
 import java.io.File;
 import java.io.IOException;

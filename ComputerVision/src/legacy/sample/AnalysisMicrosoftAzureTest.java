@@ -1,0 +1,5 @@
+package louisiana;
+
+class AnalysisMicrosoftAzureTest {
+
+}

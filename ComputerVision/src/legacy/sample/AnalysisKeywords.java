@@ -1,4 +1,4 @@
-package sample;
+package louisiana;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -7,10 +7,10 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import sample.Classes.Scan;
-import sample.Classes.ScanPair;
-import sample.Utility.ImageUtils;
-import sample.Utility.Utils;
+import louisiana.Classes.Scan;
+import louisiana.Classes.ScanPair;
+import louisiana.Utility.ImageUtils;
+import louisiana.Utility.Utils;
 
 import javax.imageio.ImageIO;
 import javax.naming.ldap.Control;
@@ -242,7 +242,7 @@ public class AnalysisKeywords{
         try {
             FXMLLoader loader = new FXMLLoader(
                     AnalysisKeywords.class.getResource(
-                            "/ApplyImageCorrections.fxml"
+                            "/src/legacy/ApplyImageCorrections.fxml"
                     )
             );
             applyCorrection.setTitle("Apply Corrections");

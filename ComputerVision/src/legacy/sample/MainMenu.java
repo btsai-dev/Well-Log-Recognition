@@ -1,4 +1,4 @@
-package sample;
+package louisiana;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,7 +11,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
-import sample.Utility.Utils;
+import louisiana.Utility.Utils;
 
 import java.io.*;
 import java.net.URL;
@@ -141,7 +141,7 @@ public class MainMenu implements Initializable {
         try {
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource(
-                            "/Instructions.fxml"
+                            "/src/legacy/Instructions.fxml"
                     )
             );
             instructionStage.setTitle("Instructions");

@@ -1,4 +1,4 @@
-package sample.Utility;
+package louisiana.Utility;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
