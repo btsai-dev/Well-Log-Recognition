@@ -49,7 +49,7 @@ public class Controller {
         return cacheDir;
     }
 
-    public static void setCacheDir(File cacheDir) {
+    public static void setCacheDir() {
         if (Controller.reviewDir != null){
             Utils.purgeDirectory(Controller.reviewDir);
             String saveFolderPath = reviewDir.toPath() + "/Cache/";

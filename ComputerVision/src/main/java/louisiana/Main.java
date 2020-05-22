@@ -3,6 +3,7 @@ package louisiana;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Control;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -13,6 +14,10 @@ public class Main extends Application {
     public void start(Stage stage){
         File targetDir = new File("C:\\Users\\godon\\__LMAOOO\\Well Logs");
         File reviewDir = new File("C:\\Users\\godon\\__LMAOOO\\Well Logs Review");
+        Controller.setTargetDir(targetDir);
+        Controller.setReviewDir(reviewDir);
+        Controller.setCacheDir();
+        Execute.executeLouisiana();
     }
 
 

@@ -30,11 +30,15 @@ public class MsAzureInstance {
         this.img = img;
     }
 
+    public JSONObject analyzeGeneral(){
+        return analyzeGeneral(10000);
+    }
+
     /**
      * Analyzes and returns JSONObject from Microsoft Azure from both printed and handwritten
      * @return jsonObject if valid, null if invalid
      */
-    public JSONObject analyzeGeneral() {
+    public JSONObject analyzeGeneral(int milliseconds) {
         if (Controller.getEndpoint() == null || Controller.getKey() == null){
             System.out.println("Missing Endpoint or Key.");
             return null;
@@ -106,10 +110,10 @@ public class MsAzureInstance {
             // amount of time depending on the length of the text.
             // You may need to wait or retry this operation.
 
-            System.out.println("\nText submitted.\n" +
-                    "Waiting 10 seconds to retrieve the recognized text.\n");
+            System.out.printf("Text submitted.\n" +
+                    "Waiting %d milliseconds to retrieve the recognized text.\n", milliseconds);
             do {
-                Thread.sleep(10000);
+                Thread.sleep(milliseconds);
 
                 // Call the second REST API method and get the response.
                 HttpGet resultRequest = new HttpGet(operationLocation);
@@ -160,7 +164,7 @@ public class MsAzureInstance {
      * Analyzes and returns JSONObject from Microsoft Azure from only printed
      * @return jsonObject if valid, null if invalid
      */
-    public JSONObject analyzePrinted(){
+    public JSONObject analyzePrinted(int milliseconds){
         String uriBase = Controller.getEndpoint() + "vision/v3.0/ocr";
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
         JSONObject json = null;

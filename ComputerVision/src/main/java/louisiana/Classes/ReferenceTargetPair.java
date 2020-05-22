@@ -24,8 +24,8 @@ public class ReferenceTargetPair {
         refY = refRect.getY() / fullDim[1];
         refW = refRect.getWidth() / fullDim[0];
         refH = refRect.getHeight() / fullDim[1];
-        tarXMultiplier = (tarRect.getX() / fullDim[0] - refX) / refW;
-        tarYMultiplier = (tarRect.getY() / fullDim[1] - refY) / refH;
+        tarXMultiplier = Math.abs(tarRect.getX() / fullDim[0] - refX) / refW;
+        tarYMultiplier = Math.abs(tarRect.getY() / fullDim[1] - refY) / refH;
         tarWMultiplier = (tarRect.getWidth() / fullDim[0]) / refW;
         tarHMultiplier = (tarRect.getHeight() / fullDim[1]) / refH;
     }

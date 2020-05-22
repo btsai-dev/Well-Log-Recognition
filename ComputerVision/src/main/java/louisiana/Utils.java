@@ -1,9 +1,8 @@
 package louisiana;
 
 import javafx.scene.shape.Rectangle;
-
+import org.json.JSONArray;
 import java.io.File;
-import java.nio.file.FileSystem;
 
 public class Utils {
     public static final String CAUSE_UNKNOWN = "Cause Unknown.";
@@ -22,6 +21,8 @@ public class Utils {
     }
 
     public static Rectangle rectFromBounding(int[] boundingBox){
+        if (boundingBox.length != 8)
+            return null;
         Rectangle rect = new Rectangle();
         // Bounding box has format (x,y) in [top-right, top-left, bottom-left, bottom-right]
         int x1 = Math.min(boundingBox[0], boundingBox[6]);
@@ -34,4 +35,14 @@ public class Utils {
         rect.setHeight(Math.abs(y1-y2));
         return rect;
     }
+
+    public static Rectangle rectFromBounding(JSONArray jsonArray){
+        if (jsonArray.length() != 8)
+            return null;
+        int[] boundingBox = new int[8];
+        for (int index = 0; index < 8; index++)
+            boundingBox[index] = jsonArray.getInt(index);
+        return rectFromBounding(boundingBox);
+    }
+
 }
