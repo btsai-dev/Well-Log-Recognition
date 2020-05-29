@@ -205,7 +205,7 @@ public class AnalysisKeywords{
         return null;
     }
 
-    private static File applyCropping(File fullImageFile, Scan target, int[] fullDim, String keyword){
+    private static File applyCropping(File fullImageFile, Scan target, Dimension fullDim, String keyword){
         String cachePath = Controller.getCacheFolder().getPath();
         String fileName = fullImageFile.getName();
         int pos = fileName.lastIndexOf(".");

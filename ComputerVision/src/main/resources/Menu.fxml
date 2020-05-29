@@ -1,8 +1,120 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="louisiana.ControllerMenu">
-
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="louisiana.MenuController">
+   <children>
+      <TabPane layoutX="47.0" layoutY="47.0" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+        <tabs>
+          <Tab text="Instructions">
+               <content>
+                  <AnchorPane>
+                     <children>
+                        <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+                           <padding>
+                              <Insets bottom="5.0" right="5.0" />
+                           </padding>
+                           <content>
+                              <TextArea fx:id="Instructions" editable="false" text="%english.instructions" wrapText="true">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </TextArea>
+                           </content>
+                        </ScrollPane>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+          <Tab text="Configuration">
+               <content>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <Label layoutX="32.0" layoutY="62.0" prefHeight="50.0" text="SELECT SCAN DIR:" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Button layoutX="651.0" layoutY="37.0" mnemonicParsing="false" onAction="#selectScanDirectory" prefHeight="50.0" prefWidth="100.0" text="SELECT" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Button>
+                        <TextField fx:id="scanDirectory" editable="false" prefHeight="50.0" text="None Selected" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="160.0" AnchorPane.topAnchor="20.0">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </TextField>
+                        <Label layoutX="30.0" layoutY="30.0" prefHeight="50.0" text="SELECT REVIEW DIR:" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="100.0">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Button layoutX="1146.0" layoutY="97.0" mnemonicParsing="false" onAction="#selectReviewDirectory" prefHeight="50.0" prefWidth="100.0" text="SELECT" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="100.0">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Button>
+                        <TextField fx:id="reviewDirectory" editable="false" prefHeight="50.0" text="None Selected" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="160.0" AnchorPane.topAnchor="100.0">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </TextField>
+                        <Label layoutX="30.0" layoutY="110.0" prefHeight="50.0" text="SUBSCRIPTION KEY:" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="180.0">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <PasswordField fx:id="subscriptionKey" prefHeight="50.0" promptText="Add subscription key" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="160.0" AnchorPane.topAnchor="180.0">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </PasswordField>
+                        <Button layoutX="1150.0" layoutY="110.0" mnemonicParsing="false" onAction="#submitSubscriptionKey" prefHeight="50.0" prefWidth="100.0" text="SUBMIT" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="180.0">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Button>
+                        <Label layoutX="30.0" layoutY="190.0" prefHeight="50.0" text="ENDPOINT URL:" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="260.0">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="endpointURL" layoutX="210.0" layoutY="190.0" prefHeight="50.0" promptText="Add endpoint URL" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="160.0" AnchorPane.topAnchor="260.0">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </TextField>
+                        <Button layoutX="1150.0" layoutY="190.0" mnemonicParsing="false" onAction="#submitEndpointURL" prefHeight="50.0" prefWidth="100.0" text="SUBMIT" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="260.0">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Button>
+                        <Label fx:id="Alert" layoutX="19.0" layoutY="338.0" text="ALERT" textFill="RED" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="1201.0" AnchorPane.topAnchor="340.0">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab text="Execution">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </children>
 </AnchorPane>

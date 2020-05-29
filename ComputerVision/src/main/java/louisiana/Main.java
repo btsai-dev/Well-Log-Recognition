@@ -17,6 +17,12 @@ public class Main extends Application {
         Controller.setTargetDir(targetDir);
         Controller.setReviewDir(reviewDir);
         Controller.setCacheDir();
+        try {
+            Controller.setWriteTo();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        Controller.initData();
         Execute.executeLouisiana();
     }
 
