@@ -36,10 +36,6 @@ The program can also be run in an IDLE environment.
 * [Tensorflow 2](https://www.tensorflow.org/) - AI Framework
 * [R](https://www.r-project.org/) - Statistical Computing Language
 
-## Papers
-* **Algebraic Properties of Wyner Common Information Solution under Graphical Constraints** - *Related Paper* - [https://arxiv.org/abs/2001.02712](https://arxiv.org/abs/2001.02712)
-* **Latent Factor Analysis of Gaussian Distributions under Graphical Constraints** - *Related Paper* - [https://arxiv.org/abs/2001.02712](https://arxiv.org/abs/2001.02712)
-
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
